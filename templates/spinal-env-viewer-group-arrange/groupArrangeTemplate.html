@@ -9,6 +9,11 @@
   <md-list flex style="padding: 0;">
     <md-list-item class="md-1-line" style="padding: 0 8px;">
       <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-input-container>
+          <md-select ng-model="selectedGroup">
+            <md-option ng-repeat="groupList in themes" ng-value="groupList.id">{{groupList.name}}</md-option>
+          </md-select>
+        </md-input-container>
         <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
           ng-click="headerBtnClick(btn)">
           <md-tooltip>{{btn.label}}</md-tooltip>
@@ -18,41 +23,42 @@
     </md-list-item>
   </md-list>
 
-  <md-subheader class="md-no-sticky" style="padding: 5px 0;">Theme List</md-subheader>
+  <md-subheader ng-model="selectedGroup" class="md-no-sticky" style="padding: 5px 0;">{{selectedGroup}}</md-subheader>
 
-  <md-list>
-    <div ng-repeat="theme in themes">
+
+  <md-list style="height: 400px;overflow-y: auto">
+    <div ng-repeat="theme in selectedGroup">
       <md-list-item ng-click="selectNote(theme)" class="md-1-line" ng-attr-style="{{selectedStyle(theme)}}">
         <p>
           <i class="fa fa-caret-right"></i>
           &nbsp; {{theme.name}}
         </p>
 
-        <md-button class="md-secondary i_btn" aria-label="addNoteInTheme" ng-click="addNoteInTheme(theme)">
+        <md-button class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
           <i class="fa fa-plus"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" aria-label="ViewAllNotes" ng-click="ViewAllNotes(theme)">
+        <md-button class="md-secondary i_btn" ng-click="ViewAllNotes(theme)">
           <i class="fa fa-eye"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" aria-label="renameNote" ng-click="renameNote(theme)">
+        <md-button class="md-secondary i_btn" ng-click="renameNote(theme)">
           <i class="fa fa-pencil"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" aria-label="deleteNote" ng-click="deleteNote(theme)">
+        <md-button class="md-secondary i_btn" ng-click="deleteNote(theme)">
           <i class="fa fa-trash"></i>
         </md-button>
 
       </md-list-item>
 
-      <md-list class='md-list-item-text'>
-        <md-list-item ng-repeat="annotation in theme.listModel" ng-click="selectNote(annotation)" class="md-1-line" ng-attr-style="{{selectedStyle(annotation)}}">
+      <md-list ng-if="theme.group.length != 0" class='md-list-item-text'>
 
-          <p>{{ annotation.title }}</p>
+        <md-list-item ng-repeat="annotation in theme.group" ng-click="selectNote(annotation)" class="md-1-line" ng-attr-style="{{selectedStyle(annotation)}}">
+
+          <p>{{ annotation.name }}</p>
 
           <md-button class="md-secondary i_btn" aria-label="addModelInNote" ng-click="addItemInNote(annotation)">
-            <md-tooltip>Add Model In Note</md-tooltip>
             <i class="fa fa-plus"></i>
           </md-button>
 
@@ -83,6 +89,8 @@
         </md-list-item>
       </md-list>
     </div>
+
+
 
   </md-list>
 

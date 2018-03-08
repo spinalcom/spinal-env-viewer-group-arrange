@@ -93,7 +93,7 @@
       Autodesk.Viewing.theExtensionManager.registerExtension('PannelGroupArrange', PannelGroupArrange);
     } // end run
   ]);
-
+  require("./groupArrange.js");
   require("./groupArrangeCtrl");
 
 
