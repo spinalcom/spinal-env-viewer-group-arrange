@@ -1,0 +1,30 @@
+<div class="file_panel_content">
+  <div class="dragDrop">
+    <input type="file" id="modal-new-dropzone-input" multiple="true" class="modal-new-dropzone-input" onchange="handle_files(event)"
+    />
+
+    <label class="text-center" for="modal-new-dropzone-input" ondrop="handle_files(event)">
+      <span class="modal-new-span-upload">
+        click to Choose files to upload or Drop them here
+      </span>
+      <ul id="modal-new-list-upload"></ul>
+    </label>
+  </div>
+
+  <div class="files_div">
+    <md-list>
+      <md-list-item ng-repeat="file in files.files">
+        <p class="noteTitle">{{file.name}}</p>
+
+        <md-button class="i_btn" aria-label="add_item" ng-click="deleteFile(file)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </md-button>
+
+        <md-button class="i_btn" aria-label="add_item" ng-click="downloadFile(file)">
+          <i class="fa fa-download" aria-hidden="true"></i>
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </div>
+
+</div>

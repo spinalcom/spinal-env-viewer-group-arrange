@@ -1,0 +1,15 @@
+{
+  "name": "spinal-env-viewer-annotation-group-pannel",
+  "version": "1.0.0",
+  "description": "spinal-env-viewer-annotation-group-pannel",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run create_plugin_template",
+    "create_plugin_template": "create_plugin_template"
+  },
+  "author": "Laurent HA TAM DAN",
+  "license": "SEE LICENSE IN license.pdf"
+}

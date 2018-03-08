@@ -1,0 +1,28 @@
+<div class="messageContainer">
+  <div class="message_div" ng-repeat="message in messages.notes">
+    <div class="message_date">{{message.date | date:"dd/MM/yyyy"}}</div>
+
+    <div class="_message">
+      <div class="message_owner">{{message.username}}</div>
+      <div class="message_content">
+
+        <div class="close_div" ng-if="parseInt(messsage.owner) == parseInt(user.id)" ng-click="removeMessage(message)">
+          <span class="close">X</span>
+        </div>
+
+        <div class="message_text">{{message.message}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form_div">
+  <div class="text_div">
+    <textarea class="form-control" rows="2" placeholder="add text" ng-model="messageText"></textarea>
+  </div>
+
+  <div class="send_button_div">
+    <button class="btn btn-block" ng-click="SendMessage()">Send</button>
+  </div>
+
+</div>
