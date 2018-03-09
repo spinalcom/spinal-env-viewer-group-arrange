@@ -3,7 +3,7 @@
   appSpinalforgePlugin.run(["$rootScope", "$compile", "$templateCache", "$http", "spinalRegisterViewerPlugin",
     function ($rootScope, $compile, $templateCache, $http, spinalRegisterViewerPlugin) {
       spinalRegisterViewerPlugin.register("PannelGroupArrange");
-
+      console.log("/////////////////////////////////");
       let load_template = (uri, name) => {
         $http.get(uri).then((response) => {
           $templateCache.put(name, response.data);
@@ -15,6 +15,7 @@
         uri: '../templates/spinal-env-viewer-group-arrange/groupArrangeTemplate.html', // à modifié lors de la création pannel
         name: 'groupArrangeTemplate.html'
       }];
+
       // , {
       //   uri: '../templates/spinal-env-viewer-annotation-group-pannel/commentTemplate.html',
       //   name: 'commentTemplate.html'
@@ -90,11 +91,14 @@
           $compile($(_container).contents())($rootScope);
         }
       } // end class
+
       Autodesk.Viewing.theExtensionManager.registerExtension('PannelGroupArrange', PannelGroupArrange);
     } // end run
   ]);
   require("./groupArrange.js");
   require("./groupArrangeCtrl");
+  require("./groupFactory");
+  // require("./moussa_template/main.js");
 
 
 })();

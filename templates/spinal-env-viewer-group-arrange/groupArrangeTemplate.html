@@ -9,9 +9,10 @@
   <md-list flex style="padding: 0;">
     <md-list-item class="md-1-line" style="padding: 0 8px;">
       <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-input-container>
-          <md-select ng-model="selectedGroup">
-            <md-option ng-repeat="groupList in themes" ng-value="groupList.id">{{groupList.name}}</md-option>
+        <md-input-container class="flex">
+          <md-select ng-model="selectedGroupId" ng-change="selectedGroupFunc()">
+            <md-option ng-value="-1">none</md-option>
+            <md-option ng-repeat="groupList in themes" ng-value="groupList.id.get()">{{groupList.name}}</md-option>
           </md-select>
         </md-input-container>
         <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
@@ -23,79 +24,142 @@
     </md-list-item>
   </md-list>
 
-  <md-subheader ng-model="selectedGroup" class="md-no-sticky" style="padding: 5px 0;">{{selectedGroup}}</md-subheader>
+  <!-- choose template of no selected group -->
 
+  <div ng-if="selectedGroupId == -1">
+    <md-subheader class="md-no-sticky" style="padding: 5px 0;">
+      <md-list>
+        </md-list-item>
+        GroupSort
 
-  <md-list style="height: 400px;overflow-y: auto">
-    <div ng-repeat="theme in selectedGroup">
-      <md-list-item ng-click="selectNote(theme)" class="md-1-line" ng-attr-style="{{selectedStyle(theme)}}">
-        <p>
-          <i class="fa fa-caret-right"></i>
-          &nbsp; {{theme.name}}
-        </p>
-
-        <md-button class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(selectedGroup)">
           <i class="fa fa-plus"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" ng-click="ViewAllNotes(theme)">
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemReferencial(selectedGroup)">
+          <i class="fas fa-puzzle-piece"></i>
+        </md-button>
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(selectedGroup)">
           <i class="fa fa-eye"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" ng-click="renameNote(theme)">
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedGroup)">
           <i class="fa fa-pencil"></i>
         </md-button>
 
-        <md-button class="md-secondary i_btn" ng-click="deleteNote(theme)">
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedGroup)">
           <i class="fa fa-trash"></i>
         </md-button>
+        </md-list-item>
+    </md-subheader>
 
-      </md-list-item>
+    <md-list style="height: 400px;overflow-y: auto">
+      <div ng-if="themes != 0" ng-repeat="theme in themes">
+        <md-list-item ng-click="selectNote(theme)" class="md-1-line">
+          <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+          <p>
+            <i class="fa fa-caret-right"></i>
+            &nbsp; {{theme.name}}
+          </p>
 
-      <md-list ng-if="theme.group.length != 0" class='md-list-item-text'>
-
-        <md-list-item ng-repeat="annotation in theme.group" ng-click="selectNote(annotation)" class="md-1-line" ng-attr-style="{{selectedStyle(annotation)}}">
-
-          <p>{{ annotation.name }}</p>
-
-          <md-button class="md-secondary i_btn" aria-label="addModelInNote" ng-click="addItemInNote(annotation)">
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
+            <!-- a modifié pour permettre de force add-->
             <i class="fa fa-plus"></i>
           </md-button>
 
-          <md-button class="md-secondary" colorpicker ng-model="annotation.color" class="color_pick" ng-attr-style="background : {{annotation.color}}"
-            name="{{annotation._server_id}}" aria-label="Select Color">
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(theme)">
+            <!-- TO DO -->
+            <i class="fa fa-eye"></i>
           </md-button>
 
-          <md-button class="md-secondary i_btn" aria-label="Toggle View Note" ng-click="ViewAllNotes(annotation)">
-            <i class="fa {{getViewIcon(annotation)}}"></i>
-          </md-button>
-
-          <md-button class="md-secondary i_btn" aria-label="Rename Note" ng-click="renameNote(annotation)">
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(theme)">
+            <!-- TO DO -->
             <i class="fa fa-pencil"></i>
           </md-button>
 
-          <md-button class="md-secondary i_btn" aria-label="Delete Note" ng-click="deleteNote(theme,annotation)">
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(theme)">
+            <!-- TO DO -->
             <i class="fa fa-trash"></i>
           </md-button>
 
-          <md-button class="md-secondary i_btn" aria-label="Comment Note" ng-click="commentNote(annotation)">
-            <i class="fa fa-comment"></i>
+        </md-list-item>
+      </div>
+    </md-list>
+  </div>
+  <!-- __________________-->
+  <!-- Choose template of group -->
+  <div>{{selectedGroupId}}</div>
+  <div ng-if="selectedGroupId != -1">
+    <md-subheader class="md-no-sticky" style="padding: 5px 0;">
+      <md-list>
+        </md-list-item>
+        {{selectedGroup.name}}
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(selectedGroup)">
+          <i class="fa fa-plus"></i>
+        </md-button>
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemReferencial(selectedGroup)">
+          <i class="fas fa-puzzle-piece"></i>
+        </md-button>
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(selectedGroup)">
+          <i class="fa fa-eye"></i>
+        </md-button>
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedGroup)">
+          <i class="fa fa-pencil"></i>
+        </md-button>
+
+        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedGroup)">
+          <i class="fa fa-trash"></i>
+        </md-button>
+        </md-list-item>
+    </md-subheader>
+    <!--ng-model="selectedGroup"-->
+
+
+    <md-list ng-if="selectedAlarm != 0" style="height: 400px;overflow-y: auto">
+      <div ng-repeat="theme in selectedAlarm">
+        <md-list-item ng-click="selectNote(theme)" class="md-1-line">
+          <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+          <p>
+            <i class="fa fa-caret-right"></i>
+            &nbsp; {{theme.name}}
+          </p>
+
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
+            <!-- a modifié pour permettre de force add-->
+            <i class="fa fa-plus"></i>
           </md-button>
 
-          <md-button class="md-secondary i_btn" aria-label="Send File" ng-click="sendFile(annotation)">
-            <i class="fa fa-file"></i>
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(theme)">
+            <!-- TO DO -->
+            <i class="fa fa-eye"></i>
+          </md-button>
+
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(theme)">
+            <!-- TO DO -->
+            <i class="fa fa-pencil"></i>
+          </md-button>
+
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(theme)">
+            <!-- TO DO -->
+            <i class="fa fa-trash"></i>
           </md-button>
 
         </md-list-item>
-      </md-list>
-    </div>
+
+
+      </div>
 
 
 
-  </md-list>
+    </md-list>
 
 </md-content>
-
+</div>
 
 
 <!-- Theme

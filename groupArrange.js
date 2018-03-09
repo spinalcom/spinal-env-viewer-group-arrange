@@ -25,6 +25,7 @@ var groupModel = class groupModel extends Model {
     this.add_attr({
       id: 0,
       name: name,
+      type: "",
       display: true,
       username: '',
       owner: '',

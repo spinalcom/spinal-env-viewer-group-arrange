@@ -1,8 +1,9 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "messagePanelService", "FilePanelService",
-      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, messagePanelService, FilePanelService) {
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService",
+      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService) {
         var viewer = v;
+        $scope.selectedGroupId = -1;
         $scope.user = authService.get_user();
         $scope.headerBtnClick = (btn) => {
           console.log("headerBtnClick");
@@ -78,34 +79,47 @@
               let note = $scope.themeGroup[i];
               $scope.themes.push(note);
               // $scope.selectedGroup = $scope.themes[1].name;
-              console.log($scope.selectedGroup);
+
               if ($scope.selectedNote && $scope.selectedNote._server_id == note._server_id) {
                 $scope.selectedNote = note;
               }
-
-              // $scope.$apply();
-
-              // chcck if aplly color
             }
+            if ($scope.selectedGroupId == -1)
+              $scope.selectedGroup = $scope.themeGroup[0];
+
 
             // messagePanelService.
           });
 
         };
 
-        // console.log("selectedGroup");
-        // console.log($scope.selectedGroup);
-        // console.log("selectedGroup");
-        // $scope.selectedGroup = () => {
-        //   for (let i = 0; i < $scope.themes.length; i++) {
-        //     if ($scope.selectedGroup == $scope.themes[i].name) {
-        //       console.log("group selected is:");
-        //       console.log($scope.themes[i].name);
-        //     }
 
-        //   }
-        // }, () => {};
 
+        $scope.selectedGroupFunc = () => {
+          for (let i = 0; i < $scope.themeGroup.length; i++) {
+            var element = $scope.themeGroup[i];
+            console.log($scope.selectedGroupId);
+            if (element.id.get() == $scope.selectedGroupId) {
+              console.log("MYY IFFFFF");
+              $scope.selectedGroup = element;
+              console.log($scope.selectedGroup);
+              $scope.selectedAlarm = element.group;
+            }
+          }
+        };
+
+        // $scope.addPanel = () => {
+        //   newPanel = new PanelClass(v, "message Panel");
+        //   newPanel.container.style.right = "0px";
+        //   newPanel.container.style.width = "400px";
+        //   newPanel.container.style.height = "600px";
+        //   newPanel.container.padding = "0px";
+
+        //   var _container = document.createElement('div');
+        //   _container.style.height = "calc(100% - 45px)";
+        //   _container.style.overflowY = 'auto';
+        //   newPanel.container.appendChild(_container);
+        // }
 
         $scope.addGroup = () => {
           $mdDialog.show($mdDialog.prompt()
@@ -156,12 +170,12 @@
 
         $scope.selectedNote = null;
 
-        $scope.selectedStyle = (note) => {
-          if (note.group) {
+        // $scope.selectedStyle = (note) => {
+        //   if (note.group) {
 
-          }
-          return note === $scope.selectedNote ? "background-color: #4185f4" : '';
-        };
+        //   }
+        //   return note === $scope.selectedNote ? "background-color: #4185f4" : '';
+        // };
 
         $scope.getViewIcon = (note) => {
 
@@ -171,6 +185,9 @@
         $scope.selectNote = (note) => {
           $scope.selectedNote = note;
           console.log(note);
+          console.log("ici est affiché ma note actuel");
+          groupPanelService.hideShowPanel(note);
+
         };
 
         $scope.renameNote = (note) => {
@@ -195,6 +212,8 @@
               }
             }, () => {});
         };
+
+
 
         $scope.ViewAllNotes = (theme) => {
 
@@ -293,8 +312,6 @@
           viewer.model.getBulkProperties(items, {
             propFilter: ['name']
           }, (models) => {
-            console.log("/////////////////////////////////////////");
-            console.log(models);
             let mod = FileSystem._objects[annotation._server_id];
             console.log(mod);
             console.log(models.dbid);
@@ -383,11 +400,11 @@
 
 
         $scope.commentNote = (theme) => {
-          messagePanelService.hideShowPanel(theme);
+          // messagePanelService.hideShowPanel(theme);
         };
 
         $scope.sendFile = (theme) => {
-          FilePanelService.hideShowPanel(theme);
+          // FilePanelService.hideShowPanel(theme);
         }
 
 
