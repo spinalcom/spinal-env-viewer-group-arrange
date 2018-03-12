@@ -32,6 +32,8 @@ var groupModel = class groupModel extends Model {
       create: Date.now(),
       allObject: [],
       group: [],
+    });
+    this.add_attr({
       referencial: this.addReferencial("referencial")
     });
   }

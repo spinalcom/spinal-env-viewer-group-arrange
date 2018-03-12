@@ -1,9 +1,11 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService",
-      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService) {
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService",
+      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService) {
         var viewer = v;
         $scope.selectedGroupId = -1;
+        $scope.selectedGroupAlarm = null;
+        $scope.selectedAlarm = null;
         $scope.user = authService.get_user();
         $scope.headerBtnClick = (btn) => {
           console.log("headerBtnClick");
@@ -84,8 +86,8 @@
                 $scope.selectedNote = note;
               }
             }
-            if ($scope.selectedGroupId == -1)
-              $scope.selectedGroup = $scope.themeGroup[0];
+
+            // $scope.selectedGroup = $scope.themeGroup[];
 
 
             // messagePanelService.
@@ -94,7 +96,7 @@
         };
 
 
-
+        // selection du menu deroulant
         $scope.selectedGroupFunc = () => {
           for (let i = 0; i < $scope.themeGroup.length; i++) {
             var element = $scope.themeGroup[i];
@@ -103,7 +105,7 @@
               console.log("MYY IFFFFF");
               $scope.selectedGroup = element;
               console.log($scope.selectedGroup);
-              $scope.selectedAlarm = element.group;
+              $scope.selectedGroupAlarm = element.group;
             }
           }
         };
@@ -143,30 +145,7 @@
             }, () => {});
         }
 
-        $scope.$on('colorpicker-closed', function (data1, data2) {
 
-          // console.log(data1);
-          // console.log(data2);
-
-          // update moedels via $scope.themes
-          for (var i = 0; i < $scope.themes.length; i++) {
-            let note = $scope.themes[i];
-            console.log("repere");
-            console.log(note);
-            for (var j = 0; j < note.group.length; j++) {
-              let annotation = note.group[j];
-              console.log(annotation);
-              let tmp = annotation.color;
-              let mod = FileSystem._objects[annotation._server_id];
-              console.log(mod);
-              console.log(tmp);
-
-              // if (mod) {
-              mod.color.set()
-              // }
-            }
-          }
-        });
 
         $scope.selectedNote = null;
 
@@ -182,13 +161,22 @@
           return note.display ? "fa-eye-slash" : "fa-eye";
         };
 
-        $scope.selectNote = (note) => {
-          $scope.selectedNote = note;
-          console.log(note);
-          console.log("ici est affiché ma note actuel");
-          groupPanelService.hideShowPanel(note);
+        $scope.selectGroup = (element) => {
+          console.log("select group")
+          $scope.selectedGroup = element;
+          console.log($scope.selectedGroup);
+
+          createPanelService.hideShowPanel("groupAlertCtrl", "selectedGroupTemplate.html", element);
 
         };
+
+        $scope.selectAlarm = (element) => {
+          $scope.selectedAlarm = element;
+          console.log("select alarm");
+          console.log($scope.selectedAlarm);
+          // allObjectCtrl.selectAlarmFunc(element);
+          allObjectService.hideShowPanel(element);
+        }
 
         $scope.renameNote = (note) => {
           $mdDialog.show($mdDialog.prompt()
@@ -227,11 +215,16 @@
 
         };
 
-        $scope.addNoteInTheme = (theme) => {
+        $scope.viewAllObject = (theme) => {
+
+          allObjectService.hideShowPanel(theme);
+        };
+
+        $scope.addAlertInGroup = (theme) => {
           $mdDialog.show($mdDialog.prompt()
-              .title("Add group")
-              .placeholder('Please enter the title')
-              .ariaLabel('Add group')
+              .title("Add alert")
+              .placeholder('Please enter the title of your alert')
+              .ariaLabel('Add alert')
               .clickOutsideToClose(true)
               .required(true)
               .ok('Confirm')
@@ -239,8 +232,8 @@
             )
             .then(function (result) {
               let mod = FileSystem._objects[theme._server_id];
-
-
+              console.log("my endpoint");
+              console.log(mod);
               var annotation = new groupAlert();
               console.log(annotation);
               annotation.name.set(result);
@@ -300,10 +293,12 @@
         };
 
 
-        $scope.addItemInNote = (annotation) => {
+
+        $scope.addItemInReferencial = (note) => {
 
           var items = viewer.getSelection();
-
+          console.log("addItemInReferencial");
+          console.log("items");
           if (items.length == 0) {
             alert('No model selected !');
             return;
@@ -312,15 +307,17 @@
           viewer.model.getBulkProperties(items, {
             propFilter: ['name']
           }, (models) => {
-            let mod = FileSystem._objects[annotation._server_id];
+            let mod = FileSystem._objects[note._server_id];
+            console.log("ici est l'éxecution de additem in referencial")
             console.log(mod);
-            console.log(models.dbid);
-            console.log(models.name);
+            console.log(models);
             if (mod) {
               for (var i = 0; i < models.length; i++) {
                 var newBimObject = new bimObject();
-                newBimObject.dbid.set(models.dbid);
-                newBimObject.name.set(models.name);
+                console.log("ajout du dbid et du name")
+                console.log(models[i].dbId);
+                newBimObject.dbid.set(models[i].dbId);
+                newBimObject.name.set(models[i].name);
                 mod.allObject.push(newBimObject);
               }
 
@@ -341,62 +338,9 @@
         }
 
 
-        $scope.changeItemColor = (theme) => {
-          var ids = [];
-          // var selected;
-          // var notes = this.model;
-          // for (var i = 0; i < notes.length; i++) {
-          //   if (notes[i].id == id) {
-          //     selected = notes[i];
-          //     for (var j = 0; j < selected.allObject.length; j++) {
-
-          //       ids.push(selected.allObject[j].dbId.get());
-          //     }
-          //   }
-          // }
-
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-
-            mod.display.set(true);
-
-            console.log(mod.color);
-
-            viewer.setColorMaterial(ids, theme.color, mod._server_id);
-          }
-        }
 
 
-        $scope.restoreColor = (theme) => {
-          var ids = [];
-          // var selected;
-          // var notes = this.model;
-          // for (var i = 0; i < notes.length; i++) {
-          //   if (notes[i].id == id) {
-          //     selected = notes[i];
-          //     for (var j = 0; j < selected.allObject.length; j++) {
-          //       ids.push(selected.allObject[j].dbId.get());
-          //     }
-          //   }
-          // }
 
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-
-            mod.display.set(false);
-
-            viewer.restoreColorMaterial(ids, mod._server_id);
-          }
-
-        }
 
 
         $scope.commentNote = (theme) => {

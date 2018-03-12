@@ -95,9 +95,15 @@
       Autodesk.Viewing.theExtensionManager.registerExtension('PannelGroupArrange', PannelGroupArrange);
     } // end run
   ]);
+  require("./createPanel.js");
   require("./groupArrange.js");
   require("./groupArrangeCtrl");
   require("./groupFactory");
+  require("./myGroupFactory");
+  require("./allObjectCtrl");
+
+  require("./groupAlertCtrl");
+
   // require("./moussa_template/main.js");
 
 
