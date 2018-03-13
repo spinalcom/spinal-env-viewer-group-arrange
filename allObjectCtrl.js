@@ -5,6 +5,9 @@
 
         $scope.selectedAlert = null;
         $scope.selectedGroup = null;
+        $scope.allObject = null;
+        $scope.alertList = null;
+        $scope.referencial = null;
 
         // selected Alert function call
         allObjectService.register(callback);
@@ -19,6 +22,7 @@
             if ($scope.selectedAlert.referencial) {
               $scope.selectedGroup.referencial.bind($scope.onRefChange);
               $scope.selectedAlert = $scope.selectedAlert.referencial;
+              $scope.referencial = $scope.selectedAlert.referencial;
             }
             console.log("ici est la liste des allObject");
             // console.log($scope.selectedAlert);
@@ -27,11 +31,12 @@
             // $scope.$apply();
             $scope.selectedGroup.bind($scope.onModelChange);
           }
+          // $scope.openAlertList();
         }
 
         $scope.onModelChange = () => {
           $scope.openAlertList();
-
+          $scope.$apply();
         };
 
         $scope.onRefChange = () => {
@@ -49,18 +54,16 @@
                 group[j].allObject.push(refObject);
             }
           }
-
+          $scope.referencial = $scope.selectedGroup.referencial;
           console.log("end referencial change");
         };
 
         $scope.openAlertList = () => {
-          // console.log("open alert list");
-          // console.log($scope.selectedGroup);
+
           const element = $scope.selectedGroup.referencial;
           $scope.alertList = [];
           $scope.alertList.push(element);
-          // console.log($scope.selectedGroup);
-          // console.log($scope.selectedGroup.group);
+
 
           for (let i = 0; i < $scope.selectedGroup.group.length; i++) {
             const element = $scope.selectedGroup.group[i];
@@ -79,7 +82,14 @@
           object.group.set(alert.id.get());
         };
 
-
+        $scope.getGroupName = (object) => {
+          if ($scope.alertList) {
+            for (let i = 0; i < $scope.alertList.length; i++) {
+              if (object.group.get() == $scope.alertList[i].id.get())
+                return ($scope.alertList[i].name.get());
+            }
+          }
+        };
 
       }
       // end of controller

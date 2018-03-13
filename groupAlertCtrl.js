@@ -119,7 +119,7 @@
 
           $mdDialog.show(dialog)
             .then((result) => {
-
+              let id = theme.id.get();
               for (let i = 0; i < $scope.group.length; i++) {
                 const selectedGroup = $scope.group[i];
                 if (theme.name.get() == selectedGroup.name.get()) {
@@ -129,7 +129,15 @@
                   }
                 }
               }
+              let tmpAllObject = $scope.selectedObject.allObject;
+              console.log(tmpAllObject);
+              for (let i = 0; i < tmpAllObject.length; i++) {
+                const element = tmpAllObject[i];
+                console.log(element);
+                if (element.group.get() == id)
+                  element.group.set(0);
 
+              }
             }, () => {});
         };
 

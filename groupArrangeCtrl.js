@@ -215,9 +215,7 @@
               $scope.changeItemColor(alert);
               alert.display.set(true);
             }
-
           }
-
         };
 
         $scope.viewAllObject = (theme) => {
@@ -316,15 +314,21 @@
             console.log("ici est l'éxecution de additem in referencial")
             console.log(mod);
             console.log(models);
+            let valide = true;
             if (mod) {
               for (var i = 0; i < models.length; i++) {
-                var newBimObject = new bimObject();
-                console.log("ajout du dbid et du name")
-                console.log(models[i].dbId);
-                newBimObject.dbid.set(models[i].dbId);
-                newBimObject.name.set(models[i].name);
-                newBimObject.group.set(0);
-                mod.allObject.push(newBimObject);
+                for (let j = 0; j < mod.allObject.length; j++) {
+                  if (mod.allObject[j].dbid.get() == models[i].dbId)
+                    valide = false;
+                }
+                if (valide) {
+                  var newBimObject = new bimObject();
+                  newBimObject.dbid.set(models[i].dbId);
+                  newBimObject.name.set(models[i].name);
+                  newBimObject.group.set(0);
+                  mod.allObject.push(newBimObject);
+                }
+                valide = true;
               }
 
               var toast = $mdToast.simple()
