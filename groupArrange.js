@@ -39,6 +39,7 @@ var groupModel = class groupModel extends Model {
   }
   addReferencial(name, color = '#008000') {
     var my_groupAlert = new groupAlert(name, color, this.allObject);
+    my_groupAlert.id.set(0);
     return (my_groupAlert);
   }
 };
@@ -50,7 +51,7 @@ var groupAlert = class groupAlert extends Model {
     super();
 
     this.add_attr({
-      id: 0,
+      id: 1,
       name: name,
       display: true,
       color: color,

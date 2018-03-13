@@ -1,0 +1,73 @@
+<md-subheader class="md-no-sticky" style="padding: 5px 0;">
+  <md-list>
+    </md-list-item>
+    {{group.name}}
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addAlertInGroup(selectedObject)">
+      <i class="fa fa-plus"></i>
+    </md-button>
+
+
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
+      <i class="fa fa-puzzle-piece"></i>
+    </md-button>
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
+      <i class="fa fa-eye"></i>
+    </md-button>
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedObject)">
+      <i class="fa fa-pencil"></i>
+    </md-button>
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedObject)">
+      <i class="fa fa-trash"></i>
+    </md-button>
+    </md-list-item>
+</md-subheader>
+<!--ng-model="selectedGroup"-->
+
+
+<md-list style="height: 400px;overflow-y: auto" ng-if="group.length != 0">
+  <div ng-repeat="alarm in group">
+
+    <md-list-item ng-click="selectAlarm(alarm)" class="md-1-line">
+      <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+      <p>
+        <i class="fa fa-caret-right"></i>
+        &nbsp; {{alarm.name}}
+      </p>
+      <!--
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
+         a modifié pour permettre de force add
+        <i class="fa fa-plus"></i>
+      </md-button>
+-->
+      <md-button class="md-secondary" colorpicker ng-model="selectedAlert.color" class="color_pick" ng-attr-style="background : {{alarm.color}}"
+        name="{{annotation._server_id}}" aria-label="Select Color">
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(alarm)">
+        <!-- TO DO -->
+        <i class="fa fa-eye"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameAlert(alarm)">
+        <!-- TO DO -->
+        <i class="fa fa-pencil"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteAlert(alarm)">
+        <!-- TO DO -->
+        <i class="fa fa-trash"></i>
+      </md-button>
+
+    </md-list-item>
+
+
+  </div>
+
+
+
+</md-list>

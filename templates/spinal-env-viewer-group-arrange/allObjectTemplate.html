@@ -1,0 +1,62 @@
+<table>
+  <tr>
+    <td>
+      <h4>{{selectedAlert.name.get()}}</h4>
+    </td>
+    <td>
+      <md-button class="md-secondary" colorpicker ng-model="changeColor" class="color_pick" ng-attr-style="background : {{selectedAlert.color}}"
+        name="{{annotation._server_id}}" aria-label="Select Color">
+      </md-button>
+    </td>
+  </tr>
+</table>
+
+
+
+
+<md-list style="height: 400px;overflow-y: auto">
+  <div>
+    <table>
+      <tr>
+        <td> dbId</td>
+        <td> name</td>
+        <td> color</td>
+      </tr>
+    </table>
+  </div>
+  <div ng-if="allObject.length > 0">
+
+    <md-list-item ng-repeat="object in allObject" ng-click="selectBimObject(object)" class="md-1-line">
+      <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+      <p>
+        <i class="fa fa-caret-right"></i>
+        &nbsp; {{object.dbid}}
+      </p>
+      <p>
+        {{object.name}}
+      </p>
+
+      <p>
+        {{object.group.get()}}
+      </p>
+
+      <md-menu>
+        <md-button aria-label="+" class="md-icon-button" ng-click="$mdMenu.open($event)">
+          <ng-md-icon icon="more_vert" style="fill: white;height: 24px;"></ng-md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item ng-repeat="alert in alertList">
+            <md-button ng-click="addAlertInGroup(object, alert)">{{alert.name}}</md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+
+    </md-list-item>
+
+
+  </div>
+
+
+
+</md-list>
