@@ -1,7 +1,11 @@
 <md-subheader class="md-no-sticky" style="padding: 5px 0;">
-  <md-list>
+  <md-list ng-click="selectAlarm(selectedObject.referencial)">
     </md-list-item>
-    {{group.name}}
+    {{selectedObject.referencial.name.get()}}
+
+    <md-button ng-click="lala" class="md-secondary" colorpicker ng-model="nimp.color" class="color_pick" ng-attr-style="background : {{selectedObject.referencial.color}}"
+      name="{{annotation._server_id}}" aria-label="Select Color">
+    </md-button>
 
     <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addAlertInGroup(selectedObject)">
       <i class="fa fa-plus"></i>
@@ -9,21 +13,21 @@
 
 
 
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
       <i class="fa fa-puzzle-piece"></i>
     </md-button>
 
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
       <i class="fa fa-eye"></i>
     </md-button>
 
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedObject)">
+    <!-- <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedObject)">
       <i class="fa fa-pencil"></i>
-    </md-button>
+    </md-button> -->
 
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedObject)">
+    <!-- <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedObject)">
       <i class="fa fa-trash"></i>
-    </md-button>
+    </md-button> -->
     </md-list-item>
 </md-subheader>
 <!--ng-model="selectedGroup"-->
@@ -48,7 +52,7 @@
         name="{{annotation._server_id}}" aria-label="Select Color">
       </md-button>
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(alarm)">
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAlarm(alarm)">
         <!-- TO DO -->
         <i class="fa fa-eye"></i>
       </md-button>

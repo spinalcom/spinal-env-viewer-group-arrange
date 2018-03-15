@@ -3,7 +3,6 @@
   appSpinalforgePlugin.run(["$rootScope", "$compile", "$templateCache", "$http", "spinalRegisterViewerPlugin",
     function ($rootScope, $compile, $templateCache, $http, spinalRegisterViewerPlugin) {
       spinalRegisterViewerPlugin.register("PannelGroupArrange");
-      console.log("/////////////////////////////////");
       let load_template = (uri, name) => {
         $http.get(uri).then((response) => {
           $templateCache.put(name, response.data);

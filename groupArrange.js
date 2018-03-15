@@ -66,7 +66,7 @@ var bimObject = class bimObject extends Model {
     super();
     var timeserie = new endpoint_TimeSeries();
     this.add_attr({
-      dbid: 0,
+      dbId: 0,
       name: '',
       on_off: true,
       group: 0,

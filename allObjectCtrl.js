@@ -39,6 +39,19 @@
           $scope.$apply();
         };
 
+        $scope.remItemInReferencial = (item) => {
+          for (let i = 0; i < $scope.referencial.allObject.length; i++) {
+            const element = $scope.referencial.allObject[i];
+            if (item.dbId.get() == element.dbId.get())
+              $scope.referencial.allObject.splice(i, 1);
+          }
+        };
+        $scope.$on('colorpicker-closed', function (data1, data2) {
+          console.log(data1);
+          console.log(data2);
+          data1.targetScope.selectedAlert.color.set(data2.value);
+        });
+
         $scope.onRefChange = () => {
           console.log("referencial change");
           let innerGroup = true;

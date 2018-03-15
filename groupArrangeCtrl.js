@@ -8,6 +8,7 @@
         $scope.selectedAlarm = null;
         $scope.referencial = null;
         $scope.user = authService.get_user();
+        $scope.themeGroup = null;
         $scope.headerBtnClick = (btn) => {
           console.log("headerBtnClick");
           console.log(btn);
@@ -35,20 +36,27 @@
 
         $scope.themes = [];
         spinalModelDictionary.init().then((m) => {
+          console.log("spinal model dictionary");
           if (m) {
-            if (m.groupAnnotationPlugin) {
-              m.groupAnnotationPlugin.load((mod) => {
+            console.log(m);
+            console.log(m.groupAlertPlugin);
+            if (m.groupAlertPlugin) {
+              m.groupAlertPlugin.load((mod) => {
+                console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
                 $scope.themeGroup = mod;
                 $scope.themeGroup.bind($scope.onModelChange);
               });
             } else {
+              console.log("delete of groupe annotation plugin");
               $scope.themeGroup = new Lst();
               m.add_attr({
-                groupAnnotationPlugin: new Ptr($scope.themeGroup)
+                groupAlertPlugin: new Ptr($scope.themeGroup)
               });
               $scope.themeGroup.bind($scope.onModelChange);
             }
           }
+        }, function () {
+          console.log("model unreachable");
         });
 
         function deferObjRdy(model, promise) {
@@ -88,7 +96,80 @@
               }
             }
 
+            console.log("///////////////////////////////////////////");
+            //il y a un probleme dans l'affichage des couleurs, il faut faire un tableau de dbid pour chaque couleurs differentes puis lancé la fonction viewer.setColorMaterial
+            for (let i = 0; i < $scope.themeGroup.length; i++) {
+              const selectedGroup = $scope.themeGroup[i];
+              if (selectedGroup.referencial.display.get()) { // si le display du referenciel est true
+                for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
+                  const refObject = selectedGroup.referencial.allObject[j];
+                  if (refObject.on_off.get()) { // si l'item est allumé
+                    if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
+                      console.log("l'objet est dans le referenciel");
+                      console.log("on affiche l'objet avec la couleur du referenciel");
+                      viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), selectedGroup.referencial._server_id);
+                    } else {
+                      console.log("l'objet est dans un groupe");
+                      for (let k = 0; k < selectedGroup.group.length; k++) {
+                        const alert = selectedGroup.group[k];
+                        if (refObject.group.get() == alert.id.get()) { // si l'objet est dans l'alert
+                          if (alert.display.get()) { //si le display de l'alert est true
+                            console.log("on affiche l'objet avec la couleur de l'alert");
+                            viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), selectedGroup.referencial._server_id);
+                          } else { // si le display de l'alert est false
+                            console.log("on delete l'affichage de l'objet");
+                            viewer.restoreColorMaterial([refObject.dbId.get()], selectedGroup.referencial._server_id);
+                          }
+                        }
+                      }
+
+                    }
+                  }
+                }
+                // } else { // si le display du referenciel est false
+
+                // }
+
+                // affichage des couleurs en temps réel
+                // for (let i = 0; i < $scope.themeGroup.length; i++) {
+                //   const group = $scope.themeGroup[i];
+                //   // console.log(group);
+                //   // console.log(i);
+                //   // console.log(group.referencial.display.get());
+                //   if (group.referencial.display.get()) {
+                //     for (let j = 0; j < group.referencial.allObject.length; j++) {
+                //       const refObject = group.referencial.allObject[j];
+                //       if (refObject.group.get() == 0)
+                //         viewer.setColorMaterial([refObject.dbId.get()], group.referencial.color.get(), group.referencial._server_id);
+                //       else
+                //         for (let k = 0; k < group.group.length; k++) {
+                //           const alert = group.group[k];
+                //           // console.log(alert.display.get());
+
+                //           if (refObject.group.get() == alert.id.get() && alert.display.get() && refObject.on_off.get()) {
+                //             // console.log("color of item in referencial");
+                //             // console.log(alert.color.get());
+                //             viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), alert._server_id);
+                //           } else
+                //             viewer.restoreColorMaterial([refObject.dbId.get()], alert._server_id);
+                //         }
+                //       // console.log("color of item in referencial");
+                //       // object is not sort
+
+                //     }
+              } else {
+                for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
+                  const refObject = selectedGroup.referencial.allObject[j];
+                  viewer.restoreColorMaterial([refObject.dbId.get()], selectedGroup.referencial._server_id);
+                }
+                console.log("referenciel display false");
+              }
+            }
+
+
+
             // $scope.selectedGroup = $scope.themeGroup[];
+            console.log("///////////////////////////////////////////");
 
 
             // messagePanelService.
@@ -205,16 +286,20 @@
 
         $scope.viewAllAlert = (groupAlert) => {
           console.log("ViewAllAlert");
+          // console.log(groupAlert);
           let tab = [];
-          for (let i = 0; i < groupAlert.group.length; i++) {
-            const alert = groupAlert.group[i];
-            if (alert.display) {
+          if (groupAlert.referencial.display.get()) {
+            for (let i = 0; i < groupAlert.group.length; i++) {
+              const alert = groupAlert.group[i];
               alert.display.set(false);
-              $scope.restoreColor(alert);
-            } else {
-              $scope.changeItemColor(alert);
+            }
+            groupAlert.referencial.display.set(false);
+          } else {
+            for (let i = 0; i < groupAlert.group.length; i++) {
+              const alert = groupAlert.group[i];
               alert.display.set(true);
             }
+            groupAlert.referencial.display.set(true);
           }
         };
 
@@ -318,12 +403,12 @@
             if (mod) {
               for (var i = 0; i < models.length; i++) {
                 for (let j = 0; j < mod.allObject.length; j++) {
-                  if (mod.allObject[j].dbid.get() == models[i].dbId)
+                  if (mod.allObject[j].dbId.get() == models[i].dbId)
                     valide = false;
                 }
                 if (valide) {
                   var newBimObject = new bimObject();
-                  newBimObject.dbid.set(models[i].dbId);
+                  newBimObject.dbId.set(models[i].dbId);
                   newBimObject.name.set(models[i].name);
                   newBimObject.group.set(0);
                   mod.allObject.push(newBimObject);
@@ -363,57 +448,28 @@
 
 
 
-        $scope.changeItemColor = (theme) => {
-          var ids = [];
-          // var selected;
-          // var notes = this.model;
-          // for (var i = 0; i < notes.length; i++) {
-          //   if (notes[i].id == id) {
-          //     selected = notes[i];
-          //     for (var j = 0; j < selected.allObject.length; j++) {
-
-          //       ids.push(selected.allObject[j].dbId.get());
-          //     }
-          //   }
-          // }
-
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-
-            mod.display.set(true);
-
-            console.log(mod.color);
-
-            viewer.setColorMaterial(ids, theme.color, mod._server_id);
+        $scope.changeItemColor = (alert) => {
+          console.log("changeItemColor");
+          let dbIdList = [];
+          for (let i = 0; i < alert.allObject.length; i++) {
+            // const bimObject = alert.allObject[i];
+            // dbIdList.push(bimObject.dbId.get());
+            alert.display.set(true);
           }
-        }
+          // viewer.setColorMaterial(dbIdList, alert.color.get(), alert._server_id);
+        };
 
 
-        $scope.restoreColor = (theme) => {
-          var ids = [];
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-            mod.display.set(false);
-            viewer.restoreColorMaterial(ids, mod._server_id);
+        $scope.restoreColor = (alert) => {
+          console.log("restore color");
+          let dbIdList = [];
+          for (let i = 0; i < alert.allObject.length; i++) {
+            // const bimObject = alert.allObject[i];
+            // dbIdList.push(bimObject.dbId.get());
+            alert.display.set(false);
           }
+          // viewer.restoreColorMaterial(dbIdList, alert._server_id);
         };
-        $scope.selectColor = (alarm) => {
-          console.log("selectedColor");
-          console.log(alarm);
-        };
-        $scope.$on('colorpicker-closed', function (data1, data2) {
-          console.log(data1);
-          console.log(data2);
-          data1.targetScope.alarm.color.set(data2.value);
-        });
 
 
         // changeAllItemsColor() {

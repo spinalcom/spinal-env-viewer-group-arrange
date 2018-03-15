@@ -155,59 +155,53 @@
           allObjectService.hideShowPanel(theme);
         };
 
-
-        $scope.changeItemColor = (theme) => {
-          var ids = [];
-          // var selected;
-          // var notes = this.model;
-          // for (var i = 0; i < notes.length; i++) {
-          //   if (notes[i].id == id) {
-          //     selected = notes[i];
-          //     for (var j = 0; j < selected.allObject.length; j++) {
-
-          //       ids.push(selected.allObject[j].dbId.get());
-          //     }
-          //   }
-          // }
-
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-
-            mod.display.set(true);
-
-            console.log(mod.color);
-
-            viewer.setColorMaterial(ids, theme.color, mod._server_id);
-          }
-        }
-
-
-        $scope.restoreColor = (theme) => {
-          var ids = [];
-          let mod = FileSystem._objects[theme._server_id];
-
-          if (mod) {
-            for (var i = 0; i < mod.allObject.length; i++) {
-              ids.push(mod.allObject[i]);
-            }
-            mod.display.set(false);
-            viewer.restoreColorMaterial(ids, mod._server_id);
+        $scope.viewAlarm = (alert) => {
+          if (alert.display.get()) {
+            // $scope.changeItemColor(alert);
+            alert.display.set(false);
+          } else {
+            // $scope.restoreColor(alert);
+            alert.display.set(true);
           }
         };
+
+        $scope.changeItemColor = (alert) => {
+          console.log("changeItemColor");
+          let dbIdList = [];
+          for (let i = 0; i < alert.allObject.length; i++) {
+            const bimObject = alert.allObject[i];
+            dbIdList.push(bimObject.dbId.get());
+          }
+          viewer.setColorMaterial(dbIdList, alert.color.get(), alert._server_id);
+        };
+
+
+        $scope.restoreColor = (alert) => {
+          console.log("restore color");
+          let dbIdList = [];
+          for (let i = 0; i < alert.allObject.length; i++) {
+            const bimObject = alert.allObject[i];
+            dbIdList.push(bimObject.dbId.get());
+          }
+          viewer.restoreColorMaterial(dbIdList, alert._server_id);
+        };
+
+
         $scope.selectColor = (alarm) => {
           console.log("selectedColor");
           console.log(alarm);
         };
+
         $scope.$on('colorpicker-closed', function (data1, data2) {
           console.log(data1);
           console.log(data2);
-          data1.targetScope.alarm.color.set(data2.value);
+          console.log(data1.targetScope.selectedAlarm);
+          data1.stopPropagation();
+          if (data2.name == "nimp.color")
+            data1.targetScope.selectedAlarm.color.set(data2.value);
+          else
+            data1.targetScope.alarm.color.set(data2.value);
         });
-
       }
       // end of controller
     ]);
