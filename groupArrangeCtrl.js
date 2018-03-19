@@ -1,7 +1,7 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService",
-      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService) {
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService",
+      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService, donutService) {
         var viewer = v;
         $scope.selectedGroupId = -1;
         $scope.selectedGroupAlarm = null;
@@ -16,6 +16,8 @@
             $scope.addGroup();
           }
         };
+        //   uri: '../templates/spinal-env-viewer-group-arrange/selectedGroupTemplate.html',
+        //   name: 'selectedGroupTemplate.html'
 
         $scope.headerBtn = [{
             label: "add group",
@@ -95,87 +97,100 @@
                 $scope.selectedNote = note;
               }
             }
+            let ref = [];
+            $scope.display(); // function for display all sensor
+          });
+        };
 
-            console.log("///////////////////////////////////////////");
-            //il y a un probleme dans l'affichage des couleurs, il faut faire un tableau de dbid pour chaque couleurs differentes puis lancé la fonction viewer.setColorMaterial
-            for (let i = 0; i < $scope.themeGroup.length; i++) {
-              const selectedGroup = $scope.themeGroup[i];
-              if (selectedGroup.referencial.display.get()) { // si le display du referenciel est true
-                for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
-                  const refObject = selectedGroup.referencial.allObject[j];
-                  if (refObject.on_off.get()) { // si l'item est allumé
-                    if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
-                      console.log("l'objet est dans le referenciel");
-                      console.log("on affiche l'objet avec la couleur du referenciel");
-                      viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), selectedGroup.referencial._server_id);
-                    } else {
-                      console.log("l'objet est dans un groupe");
-                      for (let k = 0; k < selectedGroup.group.length; k++) {
-                        const alert = selectedGroup.group[k];
-                        if (refObject.group.get() == alert.id.get()) { // si l'objet est dans l'alert
-                          if (alert.display.get()) { //si le display de l'alert est true
-                            console.log("on affiche l'objet avec la couleur de l'alert");
-                            viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), selectedGroup.referencial._server_id);
-                          } else { // si le display de l'alert est false
-                            console.log("on delete l'affichage de l'objet");
-                            viewer.restoreColorMaterial([refObject.dbId.get()], selectedGroup.referencial._server_id);
-                          }
+        $scope.display = () => {
+          for (let i = 0; i < $scope.themeGroup.length; i++) {
+            const selectedGroup = $scope.themeGroup[i];
+            if (selectedGroup.referencial.display.get()) { // si le display du referenciel est true
+              for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
+                const refObject = selectedGroup.referencial.allObject[j];
+                if (refObject.on_off.get()) { // si l'item est allumé
+                  if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
+                    console.log("l'objet est dans le referenciel");
+                    console.log("on affiche l'objet avec la couleur du referenciel");
+                    // ref.push(refObject.dbId.get());
+                    viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), refObject._server_id);
+                  } else {
+                    console.log("l'objet est dans un groupe");
+                    for (let k = 0; k < selectedGroup.group.length; k++) {
+                      const alert = selectedGroup.group[k];
+                      if (refObject.group.get() == alert.id.get()) { // si l'objet est dans l'alert
+                        if (alert.display.get()) { //si le display de l'alert est true
+                          console.log("on affiche l'objet avec la couleur de l'alert");
+
+                          viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), refObject._server_id);
+                        } else { // si le display de l'alert est false
+                          console.log("on delete l'affichage de l'objet");
+                          viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
                         }
                       }
-
                     }
                   }
+                } else {
+                  viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
                 }
-                // } else { // si le display du referenciel est false
-
-                // }
-
-                // affichage des couleurs en temps réel
-                // for (let i = 0; i < $scope.themeGroup.length; i++) {
-                //   const group = $scope.themeGroup[i];
-                //   // console.log(group);
-                //   // console.log(i);
-                //   // console.log(group.referencial.display.get());
-                //   if (group.referencial.display.get()) {
-                //     for (let j = 0; j < group.referencial.allObject.length; j++) {
-                //       const refObject = group.referencial.allObject[j];
-                //       if (refObject.group.get() == 0)
-                //         viewer.setColorMaterial([refObject.dbId.get()], group.referencial.color.get(), group.referencial._server_id);
-                //       else
-                //         for (let k = 0; k < group.group.length; k++) {
-                //           const alert = group.group[k];
-                //           // console.log(alert.display.get());
-
-                //           if (refObject.group.get() == alert.id.get() && alert.display.get() && refObject.on_off.get()) {
-                //             // console.log("color of item in referencial");
-                //             // console.log(alert.color.get());
-                //             viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), alert._server_id);
-                //           } else
-                //             viewer.restoreColorMaterial([refObject.dbId.get()], alert._server_id);
-                //         }
-                //       // console.log("color of item in referencial");
-                //       // object is not sort
-
-                //     }
-              } else {
-                for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
-                  const refObject = selectedGroup.referencial.allObject[j];
-                  viewer.restoreColorMaterial([refObject.dbId.get()], selectedGroup.referencial._server_id);
-                }
-                console.log("referenciel display false");
               }
+            } else {
+              for (let j = 0; j < selectedGroup.referencial.allObject.length; j++) {
+                const refObject = selectedGroup.referencial.allObject[j];
+                viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
+              }
+              console.log("referenciel display false");
             }
-
-
-
-            // $scope.selectedGroup = $scope.themeGroup[];
-            console.log("///////////////////////////////////////////");
-
-
-            // messagePanelService.
-          });
-
+          }
         };
+
+
+        $scope.donut = (groupArrange) => {
+          // var data = {
+          //   datasets: [{
+          //     data: []
+          //   }],
+          //   labels: []
+          // };
+          // console.log(data);
+          // var ctx = document.getElementById("myChart").getContext('2d');
+          // for (let i = 0; i < groupArrange.group.length; i++) {
+          //   data.datasets[0].data.push(groupArrange.group[i].length);
+          //   data.labels.push(groupArrange.group[i].color.get());
+          // }
+
+          // var myDonut = new Chart(ctx, {
+          //   type: "doughnut",
+          //   data: data,
+          //   options: options
+          // });
+
+          donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
+          // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
+        };
+
+        //   var chart = c3.generate({
+        //     data: {
+        //       columns: [
+        //         ['data1', 30],
+        //         ['data2', 120],
+        //       ],
+        //       type: 'donut',
+        //       onclick: function (d, i) {
+        //         console.log("onclick", d, i);
+        //       },
+        //       onmouseover: function (d, i) {
+        //         console.log("onmouseover", d, i);
+        //       },
+        //       onmouseout: function (d, i) {
+        //         console.log("onmouseout", d, i);
+        //       }
+        //     },
+        //     donut: {
+        //       title: "Iris Petal Width"
+        //     }
+        //   });
+        // };
 
 
         // selection du menu deroulant

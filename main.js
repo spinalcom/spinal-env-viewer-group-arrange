@@ -100,9 +100,9 @@
   require("./groupFactory");
   require("./myGroupFactory");
   require("./allObjectCtrl");
-
   require("./groupAlertCtrl");
-
+  require("./donutFactory");
+  require("./donutCtrl");
   // require("./moussa_template/main.js");
 
 

@@ -1,25 +1,25 @@
 <md-subheader class="md-no-sticky" style="padding: 5px 0;">
-  <md-list ng-click="selectAlarm(selectedObject.referencial)">
+  <md-list>
     </md-list-item>
     {{selectedObject.referencial.name.get()}}
 
     <md-button ng-click="lala" class="md-secondary" colorpicker ng-model="nimp.color" class="color_pick" ng-attr-style="background : {{selectedObject.referencial.color}}"
-      name="{{annotation._server_id}}" aria-label="Select Color">
+      name="{{annotation._server_id}}" aria-label="Select Color" ng-click="colorClick($event)">
+    </md-button>
+
+    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
+      <i class="fa fa-eye fa-1x"></i>
     </md-button>
 
     <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addAlertInGroup(selectedObject)">
-      <i class="fa fa-plus"></i>
+      <i class="fa fa-plus fa-1x"></i>
+    </md-button>
+
+    <md-button style="" aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
+      <i class="fa fa-puzzle-piece fa-1x"></i>
     </md-button>
 
 
-
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
-      <i class="fa fa-puzzle-piece"></i>
-    </md-button>
-
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
-      <i class="fa fa-eye"></i>
-    </md-button>
 
     <!-- <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedObject)">
       <i class="fa fa-pencil"></i>
@@ -33,12 +33,12 @@
 <!--ng-model="selectedGroup"-->
 
 
-<md-list style="height: 400px;overflow-y: auto" ng-if="group.length != 0">
+<md-list style="height: 300px;overflow-y: auto" ng-if="group.length != 0">
   <div ng-repeat="alarm in group">
 
     <md-list-item ng-click="selectAlarm(alarm)" class="md-1-line">
       <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
-      <p>
+      <p ng-attr-style="width:30px">
         <i class="fa fa-caret-right"></i>
         &nbsp; {{alarm.name}}
       </p>
@@ -48,7 +48,7 @@
         <i class="fa fa-plus"></i>
       </md-button>
 -->
-      <md-button class="md-secondary" colorpicker ng-model="selectedAlert.color" class="color_pick" ng-attr-style="background : {{alarm.color}}"
+      <md-button class="md-secondary" colorpicker ng-model="selectedAlert.color" class="color_pick" ng-attr-style="min-width: unset; min-height: unset; width:40px; height:20px;background : {{alarm.color}}"
         name="{{annotation._server_id}}" aria-label="Select Color">
       </md-button>
 

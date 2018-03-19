@@ -17,41 +17,61 @@
 
         // $scope.group.bind($scope.onModelChange);
 
-
-
-
+        $scope.colorClick = ($event) => {
+          console.log("colorClick");
+          console.log($event);
+        }
 
         $scope.viewAllAlert = (groupAlert) => {
           console.log("ViewAllAlert");
-          // let ref = [];
-          // let onDisplay = [];
-          // let offDisplay = [];
-          // let estdedans = false;
-          // for (let i = 0; i < groupAlert.referencial.allObject.length; i++) {
-          //   const refBimObject = groupAlert.referencial.allObject[i];
-          //   for (let j = 0; i < groupAlert.group.length; i++) {
-          //     const alert = groupAlert.group[i];
-          //     for (let k = 0; k < alert.allObject.length; k++) {
-          //       const alertBimObject = alert.allObject[k];
-          //       if (alertBimObject.name.get() == refBimObject.name.get())
-          //         estdedans = true;
-          //     }
-          //   }
-          // }
-
-          for (let i = 0; i < groupAlert.group.length; i++) {
-            const alert = groupAlert.group[i];
-
-            if (alert.display) {
+          // console.log(groupAlert);
+          let tab = [];
+          if (groupAlert.referencial.display.get()) {
+            for (let i = 0; i < groupAlert.group.length; i++) {
+              const alert = groupAlert.group[i];
               alert.display.set(false);
-              $scope.restoreColor(alert);
-            } else {
-              $scope.changeItemColor(alert);
+            }
+            groupAlert.referencial.display.set(false);
+          } else {
+            for (let i = 0; i < groupAlert.group.length; i++) {
+              const alert = groupAlert.group[i];
               alert.display.set(true);
             }
+            groupAlert.referencial.display.set(true);
           }
-
         };
+
+        // $scope.viewAllAlert = (groupAlert) => {
+        //   console.log("ViewAllAlert");
+        //   // let ref = [];
+        //   // let onDisplay = [];
+        //   // let offDisplay = [];
+        //   // let estdedans = false;
+        //   // for (let i = 0; i < groupAlert.referencial.allObject.length; i++) {
+        //   //   const refBimObject = groupAlert.referencial.allObject[i];
+        //   //   for (let j = 0; i < groupAlert.group.length; i++) {
+        //   //     const alert = groupAlert.group[i];
+        //   //     for (let k = 0; k < alert.allObject.length; k++) {
+        //   //       const alertBimObject = alert.allObject[k];
+        //   //       if (alertBimObject.name.get() == refBimObject.name.get())
+        //   //         estdedans = true;
+        //   //     }
+        //   //   }
+        //   // }
+
+        //   for (let i = 0; i < groupAlert.group.length; i++) {
+        //     const alert = groupAlert.group[i];
+
+        //     if (alert.display) {
+        //       alert.display.set(false);
+        //       $scope.restoreColor(alert);
+        //     } else {
+        //       $scope.changeItemColor(alert);
+        //       alert.display.set(true);
+        //     }
+        //   }
+
+        // };
 
         $scope.addAlertInGroup = (selectedGroup) => {
           $mdDialog.show($mdDialog.prompt()

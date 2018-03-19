@@ -1,5 +1,5 @@
 angular.module('app.spinalforge.plugin')
-  .factory('createPanelfactory', ["$rootScope", "$compile", "$templateCache", "$http",
+  .factory('donutFactory', ["$rootScope", "$compile", "$templateCache", "$http",
     function ($rootScope, $compile, $templateCache, $http) {
 
       let load_template = (uri, name) => {
@@ -9,19 +9,19 @@ angular.module('app.spinalforge.plugin')
           console.log('Cannot load the file ' + uri);
         });
       };
-      // let toload = [{
-      //   uri: '../templates/spinal-env-viewer-group-arrange/selectedGroupTemplate.html',
-      //   name: 'selectedGroupTemplate.html'
-      // }];
-      // for (var i = 0; i < toload.length; i++) {
-      //   load_template(toload[i].uri, toload[i].name);
-      // }
+      let toload = [{
+        uri: '../templates/spinal-env-viewer-group-arrange/donutTemplate.html',
+        name: 'donutTemplate.html'
+      }];
+      for (var i = 0; i < toload.length; i++) {
+        load_template(toload[i].uri, toload[i].name);
+      }
 
       var objectSelected = null;
       return {
-        addTemplate: (uri, name) => {
-          load_template(uri, name);
-        },
+        // addTemplate: (uri, name) => {
+        //   load_template(uri, name);
+        // },
 
 
 
@@ -29,8 +29,11 @@ angular.module('app.spinalforge.plugin')
           objectSelected = _objectSelected;
           this.panel = new PanelClass(v, "create panel");
           this.panel.container.style.right = "0px";
-          this.panel.container.style.width = "400px";
-          this.panel.container.style.height = "600px";
+          this.panel.container.style.minWidth = "200px";
+          this.panel.container.style.width = "fit-content";
+          this.panel.container.style.minHeight = "200px";
+          this.panel.container.style.maxWidth = "200px";
+
           this.panel.container.padding = "0px";
 
           var _container = document.createElement('div');
@@ -55,8 +58,8 @@ angular.module('app.spinalforge.plugin')
   ]);
 
 angular.module('app.spinalforge.plugin')
-  .factory('createPanelService', ["$rootScope", "$compile", "$templateCache", "$http", "createPanelfactory",
-    function ($rootScope, $compile, $templateCache, $http, createPanelfactory) {
+  .factory('donutService', ["$rootScope", "$compile", "$templateCache", "$http", "donutFactory",
+    function ($rootScope, $compile, $templateCache, $http, donutFactory) {
 
       var currentNote;
       var init = false;
@@ -65,7 +68,7 @@ angular.module('app.spinalforge.plugin')
       return {
 
         hideShowPanel: (controllerName, templateName, note) => {
-          let currentPanel = createPanelfactory.createPanel(controllerName, templateName, note);
+          let currentPanel = donutFactory.createPanel(controllerName, templateName, note);
           // for (let i = 0; i < tab.length; i++) {
           //   if (tab[i] != note) {
           //     init = true;

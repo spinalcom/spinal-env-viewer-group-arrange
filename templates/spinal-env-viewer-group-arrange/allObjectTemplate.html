@@ -1,12 +1,7 @@
 <table>
   <tr>
     <td>
-      <h4>{{selectedAlert.name.get()}}</h4>
-    </td>
-    <td>
-      <md-button class="md-secondary" colorpicker ng-model="changeColor" class="color_pick" ng-attr-style="background : {{selectedAlert.color}}"
-        name="{{annotation._server_id}}" aria-label="Select Color">
-      </md-button>
+      <h4 style="">{{selectedAlert.name.get()}} object list</h4>
     </td>
   </tr>
 </table>
@@ -15,7 +10,7 @@
 
 
 <md-list style="height: 400px;overflow-y: auto">
-  <div>
+  <!-- <div>
     <table>
       <tr>
         <td> dbId</td>
@@ -23,7 +18,7 @@
         <td> color</td>
       </tr>
     </table>
-  </div>
+  </div> -->
   <div ng-if="allObject.length > 0">
 
     <md-list-item ng-repeat="object in allObject" ng-click="selectBimObject(object)" class="md-1-line">
