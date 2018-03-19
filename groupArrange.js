@@ -61,6 +61,17 @@ var groupAlert = class groupAlert extends Model {
 };
 exports.groupAlert = groupAlert;
 
+var endpoint_TimeSeries = class endpoint_TimeSeries extends Model {
+  constructor(name = "end point time series") {
+    super();
+    this.add_attr({
+      time: [], // timestamp list
+      value: [] // value
+    });
+  }
+};
+exports.endpoint_TimeSeries = endpoint_TimeSeries;
+
 var bimObject = class bimObject extends Model {
   constructor(name = "group") {
     super();

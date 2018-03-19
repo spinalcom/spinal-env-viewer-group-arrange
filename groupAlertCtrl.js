@@ -1,7 +1,7 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupAlertCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelfactory",
-      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelfactory) {
+    .controller('groupAlertCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelfactory", "donutService",
+      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelfactory, donutService) {
         var viewer = v;
         $scope.changeColor = null;
 
@@ -103,6 +103,13 @@
             }, () => {
               console.log("canceled")
             });
+        };
+
+
+        $scope.donut = (groupArrange) => {
+
+          donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
+          // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
         };
 
         $scope.renameAlert = (alert) => {

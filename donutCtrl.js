@@ -63,7 +63,9 @@
               options: {
                 legend: {
                   position: "right",
-                  fontColor: "#000000"
+                  labels: {
+                    fontColor: "#F8F8F8"
+                  }
                 },
                 responsive: false,
                 animation: {

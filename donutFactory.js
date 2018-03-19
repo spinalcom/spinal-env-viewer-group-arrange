@@ -28,7 +28,7 @@ angular.module('app.spinalforge.plugin')
         createPanel: (controllerName, templateName, _objectSelected) => {
           objectSelected = _objectSelected;
           this.panel = new PanelClass(v, "create panel");
-          this.panel.container.style.right = "0px";
+          this.panel.container.style.top = "72%";
           this.panel.container.style.minWidth = "200px";
           this.panel.container.style.width = "fit-content";
           this.panel.container.style.minHeight = "200px";

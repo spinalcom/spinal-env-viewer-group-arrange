@@ -146,51 +146,10 @@
 
 
         $scope.donut = (groupArrange) => {
-          // var data = {
-          //   datasets: [{
-          //     data: []
-          //   }],
-          //   labels: []
-          // };
-          // console.log(data);
-          // var ctx = document.getElementById("myChart").getContext('2d');
-          // for (let i = 0; i < groupArrange.group.length; i++) {
-          //   data.datasets[0].data.push(groupArrange.group[i].length);
-          //   data.labels.push(groupArrange.group[i].color.get());
-          // }
-
-          // var myDonut = new Chart(ctx, {
-          //   type: "doughnut",
-          //   data: data,
-          //   options: options
-          // });
 
           donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
           // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
         };
-
-        //   var chart = c3.generate({
-        //     data: {
-        //       columns: [
-        //         ['data1', 30],
-        //         ['data2', 120],
-        //       ],
-        //       type: 'donut',
-        //       onclick: function (d, i) {
-        //         console.log("onclick", d, i);
-        //       },
-        //       onmouseover: function (d, i) {
-        //         console.log("onmouseover", d, i);
-        //       },
-        //       onmouseout: function (d, i) {
-        //         console.log("onmouseout", d, i);
-        //       }
-        //     },
-        //     donut: {
-        //       title: "Iris Petal Width"
-        //     }
-        //   });
-        // };
 
 
         // selection du menu deroulant
