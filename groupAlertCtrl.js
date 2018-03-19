@@ -183,6 +183,9 @@
         };
 
         $scope.viewAlarm = (alert) => {
+          console.log($scope.selectedObject);
+          if ($scope.selectedObject.referencial.display.get() == false)
+            $scope.selectedObject.referencial.display.set(true);
           if (alert.display.get()) {
             // $scope.changeItemColor(alert);
             alert.display.set(false);

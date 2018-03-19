@@ -17,8 +17,10 @@ angular.module('app.spinalforge.plugin')
       }
       this.panel = new PanelClass(v, "AllObject panel");
       this.panel.container.style.right = "35%";
+      this.panel.container.style.minWidth = "100px";
       this.panel.container.style.width = "400px";
       this.panel.container.style.height = "300px";
+      this.panel.container.style.minHeight = "100px";
       this.panel.container.padding = "0px";
 
       var _container = document.createElement('div');

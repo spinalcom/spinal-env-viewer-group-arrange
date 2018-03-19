@@ -9,12 +9,7 @@
   <md-list flex style="padding: 0;">
     <md-list-item class="md-1-line" style="padding: 0 8px;">
       <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-input-container class="flex">
-          <md-select ng-model="selectedGroupId" ng-change="selectedGroupFunc()">
-            <md-option ng-value="-1">none</md-option>
-            <md-option ng-repeat="groupList in themes" ng-value="groupList.id.get()">{{groupList.name}}</md-option>
-          </md-select>
-        </md-input-container>
+
         <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
           ng-click="headerBtnClick(btn)">
           <md-tooltip>{{btn.label}}</md-tooltip>
@@ -27,28 +22,7 @@
   <!-- choose template of no selected group -->
 
 
-  <md-subheader class="md-no-sticky" style="padding: 5px 0;">
-    <md-list>
-      </md-list-item>
-      GroupSort
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemReferencial(selectedGroup)">
-        <i class="fas fa-puzzle-piece"></i>
-      </md-button>
-
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="ViewAllNotes(selectedGroup)">
-        <i class="fa fa-eye"></i>
-      </md-button>
-
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedGroup)">
-        <i class="fa fa-pencil"></i>
-      </md-button>
-
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedGroup)">
-        <i class="fa fa-trash"></i>
-      </md-button>
-      </md-list-item>
-  </md-subheader>
 
   <md-list style="height: 400px;overflow-y: auto">
     <div ng-if="themes != 0" ng-repeat="theme in themes">
@@ -76,7 +50,7 @@
 
         <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(theme)">
           <!-- TO DO -->
-          <i class="fa fa-support"></i>
+          <i class="fa fa-pie-chart"></i>
         </md-button>
 
         <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(theme)">

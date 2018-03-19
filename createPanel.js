@@ -31,6 +31,8 @@ angular.module('app.spinalforge.plugin')
           this.panel.container.style.right = "0px";
           this.panel.container.style.width = "400px";
           this.panel.container.style.height = "600px";
+          this.panel.container.style.minHeight = "100px";
+          this.panel.container.style.minwidth = "200px";
           this.panel.container.padding = "0px";
 
           var _container = document.createElement('div');

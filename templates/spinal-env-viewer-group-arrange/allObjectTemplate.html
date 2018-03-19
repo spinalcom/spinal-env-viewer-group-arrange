@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td>
-      <h4 style="">{{selectedAlert.name.get()}} object list</h4>
+      <h4 style="">Select the BIM objects to add in your {{selectedAlert.name.get()}}</h4>
     </td>
   </tr>
 </table>
@@ -10,6 +10,11 @@
 
 
 <md-list style="height: 400px;overflow-y: auto">
+  {{selectedObject.referencial.name.get()}}
+
+  <md-button ng-click="lala" class="md-secondary" colorpicker ng-model="nimp.color" class="color_pick" ng-attr-style="background : {{selectedObject.referencial.color}}"
+    name="{{annotation._server_id}}" aria-label="Select Color" ng-click="colorClick($event)">
+  </md-button>
   <!-- <div>
     <table>
       <tr>
