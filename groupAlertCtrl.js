@@ -135,6 +135,30 @@
             }, () => {});
         };
 
+        $scope.renameReferencial = (selectedGroup) => {
+          $mdDialog.show($mdDialog.prompt()
+              .title("Rename")
+              .placeholder('Please enter the title')
+              .ariaLabel('Rename')
+              .clickOutsideToClose(true)
+              .required(true)
+              .ok('Confirm').cancel('Cancel'))
+            .then(function (result) {
+              let mod = FileSystem._objects[selectedGroup.referencial._server_id];
+
+              console.log(mod);
+
+              if (mod) {
+                if (mod.name)
+                  mod.name.set(result);
+                else {
+                  mod.name.set(result);
+                }
+              }
+            }, () => {});
+        };
+
+
         $scope.deleteAlert = (theme, note = null) => {
           console.log(note);
           console.log(theme);
@@ -161,8 +185,10 @@
               for (let i = 0; i < tmpAllObject.length; i++) {
                 const element = tmpAllObject[i];
                 console.log(element);
-                if (element.group.get() == id)
+                if (element.group.get() == id) {
                   element.group.set(0);
+                  restoreColor(element);
+                }
 
               }
             }, () => {});
@@ -206,15 +232,11 @@
         };
 
 
-        $scope.restoreColor = (alert) => {
+        function restoreColor(item) {
           console.log("restore color");
-          let dbIdList = [];
-          for (let i = 0; i < alert.allObject.length; i++) {
-            const bimObject = alert.allObject[i];
-            dbIdList.push(bimObject.dbId.get());
-          }
-          viewer.restoreColorMaterial(dbIdList, alert._server_id);
-        };
+          console.log(item);
+          viewer.restoreColorMaterial([item.dbId.get()], item._server_id);
+        }
 
 
         $scope.selectColor = (alarm) => {

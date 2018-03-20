@@ -4,68 +4,71 @@
     padding: 3px 16px;
   }
 </style>
+<md-subheader>
+  <md-content style="height: inherit;cursor: auto;">
+    <md-list flex style="padding: 0;">
+      <md-list-item class="md-1-line" style="padding: 0 8px;">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 
-<md-content style="height: inherit;cursor: auto;">
-  <md-list flex style="padding: 0;">
-    <md-list-item class="md-1-line" style="padding: 0 8px;">
-      <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-
-        <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
-          ng-click="headerBtnClick(btn)">
-          <md-tooltip>{{btn.label}}</md-tooltip>
-          <ng-md-icon icon="{{btn.icon}}" style="fill:white; height: 24px;"></ng-md-icon>
-        </md-button>
-      </section>
-    </md-list-item>
-  </md-list>
-
-  <!-- choose template of no selected group -->
-
-
-
-
-  <md-list style="height: 400px;overflow-y: auto">
-    <div ng-if="themes != 0" ng-repeat="theme in themes">
-      <md-list-item ng-click="selectGroup(theme)" class="md-1-line">
-        <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
-        <p>
-          <i class="fa fa-caret-right"></i>
-          &nbsp; {{theme.name}}
-        </p>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemInReferencial(theme)">
-          <!-- a modifié pour permettre de force add-->
-          <i class="fa fa-plus"></i>
-        </md-button>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(theme)">
-          <!-- TO DO -->
-          <i class="fa fa-eye"></i>
-        </md-button>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(theme)">
-          <!-- TO DO -->
-          <i class="fa fa-puzzle-piece"></i>
-        </md-button>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(theme)">
-          <!-- TO DO -->
-          <i class="fa fa-pie-chart"></i>
-        </md-button>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(theme)">
-          <!-- TO DO -->
-          <i class="fa fa-pencil"></i>
-        </md-button>
-
-        <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(theme)">
-          <!-- TO DO -->
-          <i class="fa fa-trash"></i>
-        </md-button>
-
+          <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
+            ng-click="headerBtnClick(btn)">
+            <md-tooltip>{{btn.label}}</md-tooltip>
+            <ng-md-icon icon="{{btn.icon}}" style="fill:white; height: 24px;"></ng-md-icon>
+          </md-button>
+        </section>
       </md-list-item>
-    </div>
-  </md-list>
-  <!-- __________________-->
-  <!-- Choose template of group -->
-  <div>{{selectedGroupId}}</div>
+    </md-list>
+</md-subheader>
+<!-- choose template of no selected group -->
+
+
+
+
+<md-list style="height: 400px;overflow-y: auto">
+  <div ng-if="allGroup != 0" ng-repeat="theme in allGroup">
+    <md-list-item ng-click="pickGroup(theme)" class="md-1-line">
+      <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+      <p>
+        <i class="fa fa-caret-right"></i>
+        &nbsp; {{theme.name}}
+      </p>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemInReferencial(theme)">
+        <!-- a modifié pour permettre de force add-->
+        <md-tooltip>Add item in referencial</md-tooltip>
+        <i class="fa fa-plus"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(theme)">
+        <!-- TO DO -->
+        <md-tooltip>Show state</md-tooltip>
+        <i class="fa fa-eye"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(theme)">
+        <!-- TO DO -->
+        <md-tooltip>Show</md-tooltip>
+        <i class="fa fa-puzzle-piece"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(theme)">
+        <!-- TO DO -->
+        <md-tooltip>Resume</md-tooltip>
+        <i class="fa fa-pie-chart"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameGroup(theme)">
+        <!-- TO DO -->
+        <md-tooltip>Rename</md-tooltip>
+        <i class="fa fa-pencil"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteGroup(theme)">
+        <!-- TO DO -->
+        <md-tooltip>Delete</md-tooltip>
+        <i class="fa fa-trash"></i>
+      </md-button>
+
+    </md-list-item>
+  </div>
+</md-list>

@@ -1,68 +1,70 @@
 <md-subheader class="md-no-sticky" style="padding: 5px 0;">
   <md-list>
+    <md-list-item>
+
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
+        <md-tooltip>Show state</md-tooltip>
+        <i class="fa fa-eye fa-1x"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addAlertInGroup(selectedObject)">
+        <md-tooltip>Add new group</md-tooltip>
+        <i class="fa fa-plus fa-1x"></i>
+      </md-button>
+
+      <md-button style="" aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
+        <md-tooltip>Show all object</md-tooltip>
+        <i class="fa fa-puzzle-piece fa-1x"></i>
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(selectedObject)">
+        <!-- TO DO -->
+        <md-tooltip>Resume</md-tooltip>
+        <i class="fa fa-pie-chart"></i>
+      </md-button>
+
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameReferencial(selectedObject)">
+        <!-- TO DO -->
+        <md-tooltip>Rename your Referencial</md-tooltip>
+        <i class="fa fa-pencil"></i>
+      </md-button>
     </md-list-item>
-
-
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
-      <i class="fa fa-eye fa-1x"></i>
-    </md-button>
-
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addAlertInGroup(selectedObject)">
-      <i class="fa fa-plus fa-1x"></i>
-    </md-button>
-
-    <md-button style="" aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
-      <i class="fa fa-puzzle-piece fa-1x"></i>
-    </md-button>
-
-    <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(selectedObject)">
-      <!-- TO DO -->
-      <i class="fa fa-pie-chart"></i>
-    </md-button>
-
-    <!-- <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameNote(selectedObject)">
-      <i class="fa fa-pencil"></i>
-    </md-button> -->
-
-    <!-- <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteNote(selectedObject)">
-      <i class="fa fa-trash"></i>
-    </md-button> -->
-    </md-list-item>
+  </md-list>
 </md-subheader>
-<!--ng-model="selectedGroup"-->
+
 
 
 <md-list style="height: 300px;overflow-y: auto" ng-if="group.length != 0">
   <div ng-repeat="alarm in group">
 
     <md-list-item ng-click="selectAlarm(alarm)" class="md-1-line">
-      <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+
       <p ng-attr-style="width:30px">
         <i class="fa fa-caret-right"></i>
         &nbsp; {{alarm.name}}
       </p>
-      <!--
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addNoteInTheme(theme)">
-         a modifié pour permettre de force add
-        <i class="fa fa-plus"></i>
-      </md-button>
--->
-      <md-button class="md-secondary" colorpicker ng-model="selectedAlert.color" class="color_pick" ng-attr-style="min-width: unset; min-height: unset; width:40px; height:20px;background : {{alarm.color}}"
+
+      <md-button aria-label="Fermer" class="md-secondary" colorpicker ng-model="selectedAlert.color" class="color_pick" ng-attr-style="min-width: unset; min-height: unset; width:40px; height:20px;background : {{alarm.color}}"
         name="{{annotation._server_id}}" aria-label="Select Color">
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAlarm(alarm)">
         <!-- TO DO -->
+        <md-tooltip>Show</md-tooltip>
         <i class="fa fa-eye"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameAlert(alarm)">
         <!-- TO DO -->
+        <md-tooltip>Edit name of group</md-tooltip>
         <i class="fa fa-pencil"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="deleteAlert(alarm)">
         <!-- TO DO -->
+        <md-tooltip>Delete</md-tooltip>
         <i class="fa fa-trash"></i>
       </md-button>
 
