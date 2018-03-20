@@ -383,14 +383,10 @@
             // }
 
 
-            // $scope.tree.enumNodeChildren(models[i].dbId, (child) => {
+            // $scope.tree.enumNodeChildren(models[0].dbId, (child) => {
             //   if ($scope.tree.getChildCount(child) == 0) {
             //     console.log("no children item");
-
-
             //     console.log($scope.tree.dbIdToNode[child]);
-
-            //     mod.allObject.push(newBimObject);
             //   }
             //   console.log($scope.tree.getChildCount(child));
             // }, true);
@@ -408,6 +404,7 @@
                   newBimObject.dbId.set(models[i].dbId);
                   newBimObject.name.set(models[i].name);
                   newBimObject.group.set(0);
+                  mod.allObject.push(newBimObject);
                 }
                 valide = true;
               }
