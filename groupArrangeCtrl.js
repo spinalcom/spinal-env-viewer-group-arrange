@@ -360,70 +360,62 @@
 
 
 
-        $scope.addItemInReferencial = (note) => {
+        // $scope.addItemInReferencial = (note) => {
 
-          var items = viewer.getSelection();
-          console.log("addItemInReferencial");
-          console.log("items");
-          if (items.length == 0) {
-            alert('No model selected !');
-            return;
-          }
+        //   var items = viewer.getSelection();
+        //   console.log("addItemInReferencial");
+        //   console.log("items");
+        //   if (items.length == 0) {
+        //     alert('No model selected !');
+        //     return;
+        //   }
 
-          viewer.model.getBulkProperties(items, {
-            propFilter: ['name']
-          }, (models) => {
-            let mod = FileSystem._objects[note._server_id];
-            console.log("ici est l'éxecution de additem in referencial")
-            console.log(mod);
-            console.log(models);
-            console.log($scope.tree);
-            // objTree.enumNodeChildren(root, function (id) {
-            //   console.log(objTree.getNodeName(id));
-            // }
+        //   viewer.model.getBulkProperties(items, {
+        //     propFilter: ['name']
+        //   }, (models) => {
+        //     let mod = FileSystem._objects[note._server_id];
+        //     console.log("ici est l'éxecution de additem in referencial")
+        //     console.log(mod);
+        //     console.log(models);
+        //     console.log($scope.tree);
 
 
-            // $scope.tree.enumNodeChildren(models[0].dbId, (child) => {
-            //   if ($scope.tree.getChildCount(child) == 0) {
-            //     console.log("no children item");
-            //     console.log($scope.tree.dbIdToNode[child]);
-            //   }
-            //   console.log($scope.tree.getChildCount(child));
-            // }, true);
+        //     let valide = true;
+        //     if (mod) {
+        //       for (var i = 0; i < models.length; i++) {
+        //         for (let j = 0; j < mod.allObject.length; j++) {
+        //           if (mod.allObject[j].dbId.get() == models[i].dbId)
+        //             valide = false;
+        //         }
+        //         if (valide) {
+        //           $scope.tree.enumNodeChildren(models[0].dbId, (child) => {
+        //             if ($scope.tree.getChildCount(child) == 0) {
+        //               var newBimObject = new bimObject();
+        //               newBimObject.dbId.set(child);
+        //               newBimObject.name.set(viewer.model.getData().instanceTree.getNodeName(child));
+        //               newBimObject.group.set(0);
+        //               mod.allObject.push(newBimObject);
+        //             }
+        //           }, true);
+        //         }
+        //         valide = true;
+        //       }
 
-            // $scope.tree.enumNodeChildren(models[0].dbId);
-            let valide = true;
-            if (mod) {
-              for (var i = 0; i < models.length; i++) {
-                for (let j = 0; j < mod.allObject.length; j++) {
-                  if (mod.allObject[j].dbId.get() == models[i].dbId)
-                    valide = false;
-                }
-                if (valide) {
-                  var newBimObject = new bimObject();
-                  newBimObject.dbId.set(models[i].dbId);
-                  newBimObject.name.set(models[i].name);
-                  newBimObject.group.set(0);
-                  mod.allObject.push(newBimObject);
-                }
-                valide = true;
-              }
+        //       var toast = $mdToast.simple()
+        //         .content("Item added !")
+        //         .action('OK')
+        //         .highlightAction(true)
+        //         .hideDelay(0)
+        //         .position('bottom right')
+        //         .parent("body");
 
-              var toast = $mdToast.simple()
-                .content("Item added !")
-                .action('OK')
-                .highlightAction(true)
-                .hideDelay(0)
-                .position('bottom right')
-                .parent("body");
+        //       $mdToast.show(toast);
 
-              $mdToast.show(toast);
+        //     }
 
-            }
+        //   })
 
-          })
-
-        }
+        // }
 
 
 

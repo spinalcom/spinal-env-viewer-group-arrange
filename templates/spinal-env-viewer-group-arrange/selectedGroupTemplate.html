@@ -2,6 +2,7 @@
   <md-list>
     <md-list-item>
 
+      {{selectedObject.referencial.name.get()}}
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
         <md-tooltip>Show state</md-tooltip>
@@ -52,13 +53,13 @@
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAlarm(alarm)">
         <!-- TO DO -->
-        <md-tooltip>Show</md-tooltip>
+        <md-tooltip>Show state</md-tooltip>
         <i class="fa fa-eye"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameAlert(alarm)">
         <!-- TO DO -->
-        <md-tooltip>Edit name of group</md-tooltip>
+        <md-tooltip>Edit name</md-tooltip>
         <i class="fa fa-pencil"></i>
       </md-button>
 

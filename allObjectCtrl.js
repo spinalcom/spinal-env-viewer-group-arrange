@@ -9,6 +9,7 @@
         $scope.allObject = null;
         $scope.alertList = null;
         $scope.referencial = null;
+        $scope.tree = viewer.model.getInstanceTree();
 
         // selected Alert function call
         allObjectService.register(callback);
@@ -149,9 +150,9 @@
         };
 
 
+
         $scope.addItemInReferencial = (note) => {
-          console.log(viewer);
-          console.log(note);
+
           var items = viewer.getSelection();
           console.log("addItemInReferencial");
           console.log("items");
@@ -167,6 +168,9 @@
             console.log("ici est l'éxecution de additem in referencial")
             console.log(mod);
             console.log(models);
+            console.log($scope.tree);
+
+
             let valide = true;
             if (mod) {
               for (var i = 0; i < models.length; i++) {
@@ -175,11 +179,15 @@
                     valide = false;
                 }
                 if (valide) {
-                  var newBimObject = new bimObject();
-                  newBimObject.dbId.set(models[i].dbId);
-                  newBimObject.name.set(models[i].name);
-                  newBimObject.group.set(0);
-                  mod.allObject.push(newBimObject);
+                  $scope.tree.enumNodeChildren(models[0].dbId, (child) => {
+                    if ($scope.tree.getChildCount(child) == 0) {
+                      var newBimObject = new bimObject();
+                      newBimObject.dbId.set(child);
+                      newBimObject.name.set(viewer.model.getData().instanceTree.getNodeName(child));
+                      newBimObject.group.set(0);
+                      mod.allObject.push(newBimObject);
+                    }
+                  }, true);
                 }
                 valide = true;
               }
@@ -199,6 +207,7 @@
           });
 
         };
+
 
 
         $scope.addAlertInGroup = (object, alert) => {
@@ -221,7 +230,7 @@
         };
 
         $scope.heightColorMenu = (selectedObject) => {
-          return ((selectedObject.group.length + 1) * 20);
+          return ((selectedObject.group.length + 1) * 25);
         };
 
         $scope.getGroupName = (object) => {

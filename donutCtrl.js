@@ -22,7 +22,8 @@
             $scope.data = {
               datasets: [{
                 data: [],
-                backgroundColor: []
+                backgroundColor: [],
+                borderWidth: 0,
               }],
               labels: [],
             };
@@ -61,13 +62,19 @@
               type: "doughnut",
               data: $scope.data,
               options: {
+
+                // layout: {
+                //   padding: {
+                //     top: 50
+                //   }
+                // },
                 legend: {
                   position: "right",
                   labels: {
                     fontColor: "#F8F8F8"
                   }
                 },
-                responsive: false,
+                responsive: true,
                 animation: {
                   duration: 0
                 }
