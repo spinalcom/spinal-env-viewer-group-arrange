@@ -208,7 +208,28 @@
 
         };
 
+        $scope.renameReferencial = (selectedGroup) => {
+          $mdDialog.show($mdDialog.prompt()
+              .title("Rename")
+              .placeholder('Please enter the title')
+              .ariaLabel('Rename')
+              .clickOutsideToClose(true)
+              .required(true)
+              .ok('Confirm').cancel('Cancel'))
+            .then(function (result) {
+              let mod = FileSystem._objects[selectedGroup.referencial._server_id];
 
+              console.log(mod);
+
+              if (mod) {
+                if (mod.name)
+                  mod.name.set(result);
+                else {
+                  mod.name.set(result);
+                }
+              }
+            }, () => {});
+        };
 
         $scope.addAlertInGroup = (object, alert) => {
           console.log("addAlertInGroup");

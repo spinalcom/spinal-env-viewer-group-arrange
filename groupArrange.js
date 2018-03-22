@@ -37,7 +37,7 @@ var groupModel = class groupModel extends Model {
       referencial: this.addReferencial("referencial")
     });
   }
-  addReferencial(name, color = '#008000') {
+  addReferencial(name, color = '#77B5FE') {
     var my_groupAlert = new groupAlert(name, color, this.allObject);
     my_groupAlert.id.set(0);
     return (my_groupAlert);

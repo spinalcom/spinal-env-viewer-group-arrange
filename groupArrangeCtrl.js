@@ -185,7 +185,7 @@
 
         $scope.addGroup = () => {
           $mdDialog.show($mdDialog.prompt()
-              .title("Add Theme")
+              .title("add Group")
               .placeholder('Please enter the Name')
               .ariaLabel('Add Theme')
               .clickOutsideToClose(true)
@@ -203,23 +203,84 @@
               $scope.selectGroup.push(newGroup);
 
             }, () => {});
-        }
+        };
+
+
+        $scope.export = (theme) => {
+          console.log(theme);
+          spinalModelDictionary.init().then((m) => {
+            if (m) {
+              console.log(m);
+              if (m.validationPlugin) {
+                m.validationPlugin.load((mod) => {
+                  let res = true;
+                  // si validationplugin existe
+                  for (let i = 0; i < mod.length; i++) {
+                    const element = mod[i];
+                    console.log(element);
+                    console.log(element._server_id);
+                    console.log(theme._server_id);
+                    if (element._server_id == theme._server_id)
+                      res = false;
+                  }
+                  if (res)
+                    mod.push(theme);
+                  // mod.push(theme);
+                });
+              } else {
+
+                m.add_attr({
+                  validationPlugin: new Ptr(new Lst())
+                });
+                m.validationPlugin.load((mod) => {
+                  // si validationplugin existe 
+                  mod.push(theme);
+                });
+              }
+
+            }
+          }, function () {
+            console.log("model unreachable");
+          });
+
+
+        };
+        // spinalModelDictionary.init().then((m) => {
+        //   console.log("spinal model dictionary");
+        //   if (m) {
+        //     console.log(m);
+        //     console.log(m.groupAlertPlugin);
+        //     if (m.groupAlertPlugin) {
+        //       m.groupAlertPlugin.load((mod) => {
+        //         console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
+        //         $scope.selectGroup = mod;
+        //         $scope.selectGroup.bind($scope.onModelChange);
+        //       });
+        //     } else {
+        //       console.log("delete of groupe annotation plugin");
+        //       $scope.selectGroup = new Lst();
+        //       m.add_attr({
+        //         groupAlertPlugin: new Ptr($scope.selectGroup)
+        //       });
+        //       $scope.selectGroup.bind($scope.onModelChange);
+        //     }
+        //   }
+        // }, function () {
+        //   console.log("model unreachable");
+        // });
+
 
 
 
         $scope.selectedNote = null;
 
-        // $scope.selectedStyle = (note) => {
-        //   if (note.group) {
-
-        //   }
-        //   return note === $scope.selectedNote ? "background-color: #4185f4" : '';
-        // };
 
         $scope.getViewIcon = (note) => {
 
           return note.display ? "fa-eye-slash" : "fa-eye";
         };
+
+
 
         $scope.pickGroup = (element) => {
           console.log("select group")
