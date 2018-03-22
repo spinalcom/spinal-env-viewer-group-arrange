@@ -111,10 +111,17 @@
                 const refObject = selectedGroup.referencial.allObject[j];
                 if (refObject.on_off.get()) { // si l'item est allumé
                   if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
-                    // console.log("l'objet est dans le referenciel");
-                    // console.log("on affiche l'objet avec la couleur du referenciel");
+                    console.log("l'objet est dans le referenciel");
+                    console.log("on affiche l'objet avec la couleur du referenciel");
                     // ref.push(refObject.dbId.get());
-                    // if ()
+
+
+                    if (selectedGroup.referencial.display.get())
+                      viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), refObject._server_id);
+                    else
+                      viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
+
+
                     // viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), refObject._server_id);
                     // viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
                     // console.log(refObject);

@@ -65,7 +65,7 @@
           };
 
           button1.addClass('fa');
-          button1.addClass('fa-indent');
+          button1.addClass('fa-list-alt');
           button1.addClass('fa-2x');
           button1.setToolTip('group-arrange');
 

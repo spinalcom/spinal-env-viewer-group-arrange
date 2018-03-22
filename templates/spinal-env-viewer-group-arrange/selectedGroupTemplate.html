@@ -32,7 +32,7 @@
 
 
 
-<md-list style="height: 300px;overflow-y: auto" ng-if="group.length != 0">
+<md-list ng-if="group.length != 0" style="height: 300px;overflow-y: auto">
   <div ng-repeat="alarm in group">
 
     <md-list-item ng-click="selectAlarm(alarm)" class="md-1-line">
