@@ -3,6 +3,13 @@
     display: block;
     padding: 3px 16px;
   }
+
+  .truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>
 <md-subheader>
   <md-content style="height: inherit;cursor: auto;">
@@ -28,7 +35,8 @@
   <div ng-if="allGroup != 0" ng-repeat="theme in allGroup">
     <md-list-item ng-click="pickGroup(theme)" class="md-1-line">
       <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
-      <p>
+      <p class="truncate">
+        <md-tooltip>{{theme.name}}</md-tooltip>
         <i class="fa fa-caret-right"></i>
         &nbsp; {{theme.name}}
       </p>

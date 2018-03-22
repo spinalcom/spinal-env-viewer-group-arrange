@@ -1,9 +1,19 @@
+<style>
+  .truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
 <md-subheader class="md-no-sticky" style="padding: 5px 0;">
   <md-list>
     <md-list-item>
-
-      {{selectedObject.referencial.name.get()}}
-
+      <span class="truncate">
+        <md-tooltip>{{selectedObject.referencial.name.get()}}</md-tooltip>
+        {{selectedObject.referencial.name.get()}}
+      </span>
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
         <md-tooltip>Show state</md-tooltip>
         <i class="fa fa-eye fa-1x"></i>
@@ -37,7 +47,8 @@
 
     <md-list-item ng-click="selectAlarm(alarm)" class="md-1-line">
 
-      <p ng-attr-style="width:30px">
+      <p ng-attr-style="width:30px" class="truncate">
+        <md-tooltip>{{alarm.name}}</md-tooltip>
         <i class="fa fa-caret-right"></i>
         &nbsp; {{alarm.name}}
       </p>
