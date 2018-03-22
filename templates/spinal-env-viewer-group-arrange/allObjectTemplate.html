@@ -24,12 +24,7 @@
   <md-list>
     <md-list-item>
       <p class="truncate">
-        <md-tooltip>Referencial: {{selectedObject.referencial.name.get()}}</md-tooltip>Referencial: {{selectedObject.referencial.name.get()}}</p>
-
-      <md-button aria-label="Fermer" ng-click="lala" class="md-secondary no-pad" colorpicker ng-model="nimp.color" class="color_pick"
-        ng-attr-style="min-width: unset; min-height: unset; width:40px; height:30px;background : {{selectedObject.referencial.color.get()}}"
-        name="{{annotation._server_id}}" aria-label="Select Color" ng-click="colorClick($event)">
-      </md-button>
+        <md-tooltip>unclassified group: {{selectedObject.referencial.name.get()}}</md-tooltip>unclassified group: {{selectedObject.referencial.name.get()}}</p>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="addItemInReferencial(selectedObject)">
         <md-tooltip>Add item in referencial</md-tooltip>
@@ -37,24 +32,24 @@
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="viewReferencial(selectedObject)">
-        <md-tooltip>Select object of referencial</md-tooltip>
+        <md-tooltip>Select all items in the referencial</md-tooltip>
         <i class="fa fa-eye fa-1x"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="donut(selectedObject)">
         <!-- TO DO -->
-        <md-tooltip>Resume</md-tooltip>
+        <md-tooltip>Report</md-tooltip>
         <i class="fa fa-pie-chart"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="renameReferencial(selectedObject)">
         <!-- TO DO -->
-        <md-tooltip>Rename your unsort name item</md-tooltip>
+        <md-tooltip>Rename unclassified object Group</md-tooltip>
         <i class="fa fa-pencil"></i>
       </md-button>
 
       <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="remAllItemInReferencial(selectedObject)">
-        <md-tooltip>Delete all item in referencial</md-tooltip>
+        <md-tooltip>Delete all item in the referencial</md-tooltip>
         <i class="fa fa-trash"></i>
       </md-button>
     </md-list-item>

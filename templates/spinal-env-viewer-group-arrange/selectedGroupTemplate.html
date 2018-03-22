@@ -14,6 +14,18 @@
         <md-tooltip>{{selectedObject.referencial.name.get()}}</md-tooltip>
         {{selectedObject.referencial.name.get()}}
       </span>
+
+      <md-button aria-label="Fermer" ng-click="lala" class="md-secondary no-pad" colorpicker ng-model="nimp.color" class="color_pick"
+        ng-attr-style="min-width: unset; min-height: unset; width:40px; height:30px;background : {{selectedObject.referencial.color.get()}}"
+        name="{{annotation._server_id}}" aria-label="Select Color" ng-click="colorClick($event)">
+      </md-button>
+
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="renameReferencial(selectedObject)">
+        <!-- TO DO -->
+        <md-tooltip>Rename unclassified object Group</md-tooltip>
+        <i class="fa fa-pencil"></i>
+      </md-button>
+
       <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllAlert(selectedObject)">
         <md-tooltip>Show state</md-tooltip>
         <i class="fa fa-eye fa-1x"></i>

@@ -65,13 +65,21 @@ angular.module('app.spinalforge.plugin')
             currentNote = note;
             selectedObject = _selectedObject;
             this.panel.setVisible(true);
-            this.panel.setTitle(note.name);
+            if (!_selectedObject)
+              this.panel.setTitle(note.name + " - " + "referencial");
+            else
+              this.panel.setTitle(_selectedObject.name + -note.name);
+
           } else if (this.panel.isVisible() && note._server_id == currentNote._server_id) {
             this.panel.setVisible(false);
           } else {
             currentNote = note;
             selectedObject = _selectedObject;
-            this.panel.setTitle(note.name);
+            if (!_selectedObject)
+              this.panel.setTitle(note.name + " - " + "referencial");
+            else
+              this.panel.setTitle(_selectedObject.name + " Group : " + note.name);
+
           }
 
 
