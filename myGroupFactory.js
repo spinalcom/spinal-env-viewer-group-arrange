@@ -20,7 +20,7 @@ angular.module('app.spinalforge.plugin')
       this.panel.container.style.minWidth = "400px";
       this.panel.container.style.width = "450px";
       this.panel.container.style.height = "300px";
-      // this.panel.container.style.minHeight = "100px";
+      this.panel.container.style.minHeight = "100px";
       this.panel.container.padding = "0px";
 
       var _container = document.createElement('div');
@@ -65,13 +65,21 @@ angular.module('app.spinalforge.plugin')
             currentNote = note;
             selectedObject = _selectedObject;
             this.panel.setVisible(true);
-            this.panel.setTitle(note.name);
+            if (!_selectedObject)
+              this.panel.setTitle(note.name + " - " + "referencial");
+            else
+              this.panel.setTitle(_selectedObject.name + -note.name);
+
           } else if (this.panel.isVisible() && note._server_id == currentNote._server_id) {
             this.panel.setVisible(false);
           } else {
             currentNote = note;
             selectedObject = _selectedObject;
-            this.panel.setTitle(note.name);
+            if (!_selectedObject)
+              this.panel.setTitle(note.name + " - " + "referencial");
+            else
+              this.panel.setTitle(_selectedObject.name + " Group : " + note.name);
+
           }
 
 

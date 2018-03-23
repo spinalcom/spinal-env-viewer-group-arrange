@@ -1,45 +1,54 @@
+<style>
+  .no-pad {
+    padding: 0;
+    margin: 3px;
+  }
+
+  .truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
 <md-subheader ng-if="selectedAlert.name.get() == selectedObject.referencial.name.get()">
-  <table>
+  <!-- <table>
     <tr>
-      <td>
-        <h4 style="">Select the BIM objects to add in your referencial</h4>
-      </td>
+      <td> -->
+  <!-- <h4 style="">Select the BIM objects to add in your referencial</h4> -->
+  <!-- </td>
     </tr>
-  </table>
+  </table> -->
 
-  <md-list style="overflow-y: auto">
+  <md-list>
     <md-list-item>
-      <p>{{selectedObject.referencial.name.get()}}</p>
+      <p class="truncate">
+        <md-tooltip>unclassified group: {{selectedObject.referencial.name.get()}}</md-tooltip>unclassified group: {{selectedObject.referencial.name.get()}}</p>
 
-      <md-button aria-label="Fermer" ng-click="lala" class="md-secondary" colorpicker ng-model="nimp.color" class="color_pick"
-        ng-attr-style="min-width: unset; min-height: unset; width:40px; height:30px;background : {{selectedObject.referencial.color.get()}}"
-        name="{{annotation._server_id}}" aria-label="Select Color" ng-click="colorClick($event)">
-      </md-button>
-
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="addItemInReferencial(selectedObject)">
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="addItemInReferencial(selectedObject)">
         <md-tooltip>Add item in referencial</md-tooltip>
         <i class="fa fa-plus"></i>
       </md-button>
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewReferencial(selectedObject)">
-        <md-tooltip>Select object of referencial</md-tooltip>
-        <i class="fa fa-eye fa-1x"></i>
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="viewReferencial(selectedObject)">
+        <md-tooltip>Select all items in the referencial</md-tooltip>
+        <i class="fa fa-crosshairs fa-1x"></i>
       </md-button>
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="donut(selectedObject)">
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="donut(selectedObject)">
         <!-- TO DO -->
-        <md-tooltip>Resume</md-tooltip>
+        <md-tooltip>Report</md-tooltip>
         <i class="fa fa-pie-chart"></i>
       </md-button>
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="renameReferencial(selectedObject)">
-        <!-- TO DO -->
-        <md-tooltip>Rename your unsort name item</md-tooltip>
-        <i class="fa fa-pencil"></i>
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="resetReferencial(selectedObject)">
+        <md-tooltip>Reset of referencial</md-tooltip>
+        <i class="fa fa-eraser"></i>
       </md-button>
 
-      <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="remAllItemInReferencial(selectedObject)">
-        <md-tooltip>Delete all item in referencial</md-tooltip>
+      <md-button aria-label="Fermer" class="md-secondary i_btn no-pad" ng-click="remAllItemInReferencial(selectedObject)">
+        <md-tooltip>Delete all item in the referencial</md-tooltip>
         <i class="fa fa-trash"></i>
       </md-button>
     </md-list-item>
@@ -47,16 +56,16 @@
 </md-subheader>
 
 <md-subheader ng-if="selectedAlert.name.get() != selectedObject.referencial.name.get()">
-  <table>
+  <!-- <table>
     <tr>
-      <td>
-        <h4 style="">BIM object</h4>
-      </td>
+      <td> -->
+  <!-- <h4 style=""></h4> -->
+  <!-- </td>
     </tr>
-  </table>
+  </table> -->
   <md-list>
     <md-list-item>
-      <p>{{selectedAlert.name.get()}}</p>
+      <p class="truncate">BIM objects : {{selectedAlert.name.get()}}</p>
 
       <md-button aria-label="Fermer" aria-label="Fermer" class="md-secondary i_btn" ng-click="viewAllObject(selectedObject)">
         <md-tooltip>Show all object</md-tooltip>
@@ -66,47 +75,46 @@
   </md-list>
 </md-subheader>
 
+<md-list style="height: calc(100% - 88px);overflow-y: auto">
+  <md-list-item ng-if="allObject.length > 0" ng-repeat="object in allObject" ng-click="selectBimObject(object)" class="md-1-line">
+    <md-tooltip>{{object.name}} - {{getGroupName(object)}}</md-tooltip>
+    <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
+    <!-- <p>
+      {{object.dbid}}
+    </p> -->
+    <p class="truncate">
+      <i class="fa fa-caret-right"></i>&nbsp;{{object.name}}
+    </p>
 
-<md-list-item ng-if="allObject.length > 0" ng-repeat="object in allObject" ng-click="selectBimObject(object)" class="md-1-line">
-  <!-- ng-attr-style="{{selectedStyle(theme)}}" -->
-  <p>
-    <i class="fa fa-caret-right"></i>
-    &nbsp; {{object.dbid}}
-  </p>
-  <p>
-    {{object.name}}
-  </p>
+    <md-menu md-offset="35 0">
+      <md-button aria-label="+" ng-click="$mdMenu.open($event)" ng-attr-style="background : {{getColorObject(object)}};min-width: 30px;  width : 30px; min-height: 15px">
+        <!-- <ng-md-icon icon="more_vert" style="fill: white;height: 24px;"></ng-md-icon> -->
+      </md-button>
+      <md-menu-content>
+        <md-menu-item ng-repeat="alert in alertList">
 
-  <p>{{getGroupName(object)}}</p>
-  <md-menu md-offset="35 0">
-    <md-button aria-label="+" ng-click="$mdMenu.open($event)" ng-attr-style="background : {{getColorObject(object)}};min-width: 30px;  width : 30px; min-height: 15px">
-      <!-- <ng-md-icon icon="more_vert" style="fill: white;height: 24px;"></ng-md-icon> -->
+
+          <md-button aria-label="Fermer" ng-click="addAlertInGroup(object, alert)">
+            <ng-md-icon icon="label" ng-attr-style="fill: {{getColorAlert(alert)}};height: 24px;"></ng-md-icon>
+            <span class="truncate">{{alert.name}}</span>
+          </md-button>
+
+
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+    <!-- min-width: 35px;  width : 100%; min-height: 15px; height: 25px" -->
+
+    <md-button ng-if="selectedAlert.name.get() == selectedObject.referencial.name.get()" aria-label="Fermer" class="md-secondary i_btn"
+      ng-click="remItemInReferencial(object)">
+      <md-tooltip>Delete item</md-tooltip>
+      <!-- TO DO -->
+      <i class="fa fa-trash"></i>
     </md-button>
-    <md-menu-content>
-      <md-menu-item ng-repeat="alert in alertList">
 
-
-        <md-button aria-label="Fermer" ng-click="addAlertInGroup(object, alert)">
-          <ng-md-icon icon="label" ng-attr-style="fill: {{getColorAlert(alert)}};height: 24px;"></ng-md-icon>
-          <span>{{alert.name}}</span>
-        </md-button>
-
-
-      </md-menu-item>
-    </md-menu-content>
-  </md-menu>
-
-  <!-- min-width: 35px;  width : 100%; min-height: 15px; height: 25px" -->
-
-  <md-button ng-if="selectedAlert.name.get() == selectedObject.referencial.name.get()" aria-label="Fermer" class="md-secondary i_btn"
-    ng-click="remItemInReferencial(object)">
-    <md-tooltip>Delete item</md-tooltip>
-    <!-- TO DO -->
-    <i class="fa fa-trash"></i>
-  </md-button>
-
-</md-list-item>
-
+  </md-list-item>
+</md-list>
 
 
 

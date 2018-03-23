@@ -72,6 +72,28 @@
         //   }
 
         // };
+        $scope.renameReferencial = (selectedGroup) => {
+          $mdDialog.show($mdDialog.prompt()
+              .title("Rename")
+              .placeholder('Please enter the title')
+              .ariaLabel('Rename')
+              .clickOutsideToClose(true)
+              .required(true)
+              .ok('Confirm').cancel('Cancel'))
+            .then(function (result) {
+              let mod = FileSystem._objects[selectedGroup.referencial._server_id];
+
+              console.log(mod);
+
+              if (mod) {
+                if (mod.name)
+                  mod.name.set(result);
+                else {
+                  mod.name.set(result);
+                }
+              }
+            }, () => {});
+        };
 
         $scope.addAlertInGroup = (selectedGroup) => {
           $mdDialog.show($mdDialog.prompt()
@@ -229,7 +251,7 @@
           console.log(data1.targetScope.selectedAlarm);
           data1.stopPropagation();
           if (data2.name == "nimp.color")
-            data1.targetScope.selectedAlarm.color.set(data2.value);
+            data1.targetScope.selectedObject.referencial.color.set(data2.value);
           else
             data1.targetScope.alarm.color.set(data2.value);
         });

@@ -254,6 +254,14 @@
           return ((selectedObject.group.length + 1) * 25);
         };
 
+        $scope.resetReferencial = (selectedObject) => {
+          console.log(selectedObject);
+          for (let i = 0; i < selectedObject.allObject.length; i++) {
+            const bimObject = selectedObject.allObject[i];
+            bimObject.group.set(0);
+          }
+        };
+
         $scope.getGroupName = (object) => {
           if ($scope.alertList) {
             for (let i = 0; i < $scope.alertList.length; i++) {

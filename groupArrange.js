@@ -34,7 +34,7 @@ var groupModel = class groupModel extends Model {
       group: [],
     });
     this.add_attr({
-      referencial: this.addReferencial("referencial")
+      referencial: this.addReferencial("unclassified")
     });
   }
   addReferencial(name, color = '#77B5FE') {

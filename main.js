@@ -52,9 +52,9 @@
         }
 
         createUI() {
-          var title = 'group arrange';
+          var title = 'group studio';
           this.panel = new PanelClass(this.viewer, title);
-          var button1 = new Autodesk.Viewing.UI.Button('group arrange');
+          var button1 = new Autodesk.Viewing.UI.Button('group studio');
 
           button1.onClick = (e) => {
             if (!this.panel.isVisible()) {
@@ -65,13 +65,13 @@
           };
 
           button1.addClass('fa');
-          button1.addClass('fa-indent');
+          button1.addClass('fa-list-alt');
           button1.addClass('fa-2x');
-          button1.setToolTip('group-arrange');
+          button1.setToolTip('group-studio');
 
           this.subToolbar = this.viewer.toolbar.getControl("spinalcom");
           if (!this.subToolbar) {
-            this.subToolbar = new Autodesk.Viewing.UI.ControlGroup('spnalcom');
+            this.subToolbar = new Autodesk.Viewing.UI.ControlGroup('spinalcom');
             this.viewer.toolbar.addControl(this.subToolbar);
           }
           this.subToolbar.addControl(button1);
