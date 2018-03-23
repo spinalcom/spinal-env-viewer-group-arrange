@@ -1,7 +1,8 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService",
-      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService, donutService) {
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService","$templateCache",
+      function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService, donutService, $templateCache) {
+        
         var viewer = v;
         $scope.selectedGroupId = -1;
         $scope.selectedGroupAlarm = null;
@@ -553,6 +554,136 @@
         //   }
         //   this.viewer.restoreAllMaterialColor(objects);
         // }
+
+        $scope.createRapport = (theme) => {
+          
+
+  /*-------------------------------------------A Modifier ------------------------------------------------*/
+          var data = {
+            datasets: [{
+              data: [],
+              backgroundColor: [],
+              borderWidth: 0,
+            }],
+            labels: [],
+          }
+
+          for (let i = 0; i < theme.referencial.allObject.length; i++) {
+            const element = theme.referencial.allObject[i];
+            if (element.group.get() == 0)
+              tmp++;
+          }
+          
+          // console.log(tmp);
+          data.datasets[0].data.push(tmp);
+          data.labels.push(theme.referencial.name.get());
+          data.datasets[0].backgroundColor.push(theme.referencial.color.get());
+
+          // let percent;
+          for (let i = 0; i < theme.group.length; i++) {
+            data.datasets[0].data.push(theme.group[i].allObject.length);
+            data.labels.push(theme.group[i].name.get());
+            data.datasets[0].backgroundColor.push(theme.group[i].color.get());
+          }
+
+
+
+  /*-------------------------------------------Fin A Modifier ------------------------------------------------*/
+
+
+          var body = document.getElementsByTagName("body")[0];
+          body.innerHTML += ($templateCache.get('pdfTemplate.html'));
+
+          
+          var graph = document.getElementById("pdfGraph").getContext('2d');
+
+          var myChart = new Chart(graph, {
+            type : "doughnut",
+            data : data,
+            options: {
+              legend: {
+                position: "top",
+                labels: {
+                  fontColor: "#000000"//"#F8F8F8"
+                }
+              },
+              responsive: true,
+              animation: {
+                duration: 0
+              }
+            }
+          })
+
+          var detail = document.getElementById("pdfGraphDetail");
+          console.log(detail)
+
+          for (var i = 0; i < theme.group.length; i++) {
+            var alert = theme.group[i]
+            
+            var div = document.createElement("div");
+            div.className = alert.id
+            
+            var title = document.createElement("h4");
+            title.className = "pdfTitle";
+            title.innerText = "  " + alert.name;
+            title.style.display = "inline";
+
+            var span = document.createElement('div');
+            span.style.width = "100px";
+            span.style.height = "10px";
+            span.style.border = "1px solid black";
+            span.style.background = alert.color;
+            span.style.display = "inline-block";
+
+            var titleDiv = document.createElement('div');
+
+            titleDiv.appendChild(span);
+            titleDiv.appendChild(title);
+            // titleDiv.appendChild(document.createElement("hr"));
+
+            titleDiv.style.padding = "10px";
+            title.style.color = "#ffffff";
+            title.style.height = "30px";
+
+            titleDiv.style.background = "#3A3A3A"
+
+            var ol = document.createElement("ol");
+            var li;
+
+            for (var j = 0; j < alert.allObject.length; j++) {
+              var item = alert.allObject[j]
+
+              li = document.createElement('li');
+              li.innerText = item.dbId + " - " + item.name;
+              ol.appendChild(li);              
+            }
+
+            div.appendChild(titleDiv);
+            div.appendChild(ol); 
+            detail.appendChild(div);
+
+          }
+
+      
+          html2canvas(document.getElementById("myPdfTemplate"),{
+            // width: 730, 
+            // height: 1050,
+            onrendered: function(canvas){
+              var imgData = canvas.toDataURL('image/jpeg');
+              var doc = new jsPDF({unit : "px",format : "a4"});
+              doc.addImage(imgData,'jpeg',0,10);
+              doc.save('test.pdf');
+              // doc.output("dataurlnewwindow");
+            }
+          })
+
+
+          
+          
+
+        }
+
+        
 
       }
       // end of controller

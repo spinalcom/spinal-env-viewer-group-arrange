@@ -11,6 +11,10 @@ angular.module('app.spinalforge.plugin')
       let toload = [{
         uri: '../templates/spinal-env-viewer-group-arrange/selectedGroupTemplate.html',
         name: 'selectedGroupTemplate.html'
+      },
+      {
+        uri: '../templates/spinal-env-viewer-group-arrange/pdfTemplate.html',
+        name: 'pdfTemplate.html'
       }];
       for (var i = 0; i < toload.length; i++) {
         load_template(toload[i].uri, toload[i].name);

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "spinal-env-viewer-group-arrange",
   "main": "main.js",
-  "dependencies": {},
+  "dependencies": {
+   
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

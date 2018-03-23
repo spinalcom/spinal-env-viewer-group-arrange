@@ -2,6 +2,8 @@
   angular.module('app.spinalforge.plugin')
     .controller('donutCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "donutFactory",
       function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, donutFactory) {
+        
+        
         var viewer = v;
         var callback = () => {
           $scope.$apply();
@@ -16,6 +18,7 @@
         $scope.getUID = () => {
           return ("mychart-" + $scope.uid);
         };
+
 
         $scope.donuts = () => {
           if (!$scope.data)
