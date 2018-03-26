@@ -1,8 +1,11 @@
+import 'html2canvas'
+import * as jspdf from 'jspdf'
+
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService","$templateCache",
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService", "$templateCache",
       function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService, donutService, $templateCache) {
-        
+
         var viewer = v;
         $scope.selectedGroupId = -1;
         $scope.selectedGroupAlarm = null;
@@ -562,10 +565,69 @@
         //   this.viewer.restoreAllMaterialColor(objects);
         // }
 
-        $scope.createRapport = (theme) => {
-          
 
-  /*-------------------------------------------A Modifier ------------------------------------------------*/
+        function create_group_Rapport(detail, alert, name) {
+          let is_ref = false;
+          if (!name) {
+            name = alert.name;
+          } else
+            is_ref = true;
+          var div = document.createElement("div");
+          div.className = alert.id;
+
+          var title = document.createElement("h4");
+          title.className = "pdfTitle";
+          title.innerText = "  " + name;
+          // title.style.display = "inline";
+
+          var span = document.createElement('div');
+          span.className = "color_span"
+          // span.style.width = "100px";
+          // span.style.height = "10px";
+          // span.style.border = "1px solid black";
+          span.style.background = alert.color;
+          // span.style.display = "inline-block";
+
+          var titleDiv = document.createElement('div');
+          titleDiv.className = "titleDiv"
+          titleDiv.appendChild(span);
+          titleDiv.appendChild(title);
+          // titleDiv.appendChild(document.createElement("hr"));
+          title.className = "__title"
+          // titleDiv.style.padding = "10px";
+          // title.style.color = "#ffffff";
+          // title.style.height = "30px";
+
+          // titleDiv.style.background = "#3A3A3A";
+
+          div.appendChild(titleDiv);
+          var ol = document.createElement("ul");
+          var li;
+          let empty = true;
+          if (alert.allObject.length > 0) {
+            for (var j = 0; j < alert.allObject.length; j++) {
+              var item = alert.allObject[j]
+              if (!is_ref || (is_ref && item.group.get() == 0)) {
+                empty = false;
+                li = document.createElement('li');
+                li.innerText = item.dbId + " - " + item.name;
+                ol.appendChild(li);
+              }
+            }
+          }
+          if (empty) {
+            li = document.createElement('li');
+            li.innerText = "Groupe Vide.";
+            ol.appendChild(li);
+
+          }
+          div.appendChild(ol);
+          detail.appendChild(div);
+        }
+
+        $scope.createRapport = (theme) => {
+
+          /*-------------------------------------------A Modifier ------------------------------------------------*/
           var data = {
             datasets: [{
               data: [],
@@ -574,13 +636,13 @@
             }],
             labels: [],
           }
-
+          let tmp = 0;
           for (let i = 0; i < theme.referencial.allObject.length; i++) {
             const element = theme.referencial.allObject[i];
             if (element.group.get() == 0)
               tmp++;
           }
-          
+
           // console.log(tmp);
           data.datasets[0].data.push(tmp);
           data.labels.push(theme.referencial.name.get());
@@ -594,24 +656,30 @@
           }
 
 
+          /*-------------------------------------------Fin A Modifier ------------------------------------------------*/
 
-  /*-------------------------------------------Fin A Modifier ------------------------------------------------*/
+          var printWindow = window.open('', '', 'height=400,width=900');
+          printWindow.document.write('<html><head><title>Rapport SpinalBIM - ' + theme.name + '</title>');
+          printWindow.document.write('</head><body >');
+          // printWindow.document.write(divContents);
+          printWindow.document.write($templateCache.get('pdfTemplate.html'));
+          printWindow.document.write('</body></html>');
 
 
-          var body = document.getElementsByTagName("body")[0];
-          body.innerHTML += ($templateCache.get('pdfTemplate.html'));
+          // var body = document.getElementsByTagName("body")[0];
+          // body.innerHTML += ($templateCache.get('pdfTemplate.html'));
 
-          
-          var graph = document.getElementById("pdfGraph").getContext('2d');
+
+          var graph = printWindow.document.getElementById("pdfGraph").getContext('2d');
 
           var myChart = new Chart(graph, {
-            type : "doughnut",
-            data : data,
+            type: "doughnut",
+            data: data,
             options: {
               legend: {
                 position: "top",
                 labels: {
-                  fontColor: "#000000"//"#F8F8F8"
+                  fontColor: "#000000" //"#F8F8F8"
                 }
               },
               responsive: true,
@@ -621,76 +689,76 @@
             }
           })
 
-          var detail = document.getElementById("pdfGraphDetail");
+          var detail = printWindow.document.getElementById("pdfGraphDetail");
           console.log(detail)
 
           for (var i = 0; i < theme.group.length; i++) {
             var alert = theme.group[i]
-            
-            var div = document.createElement("div");
-            div.className = alert.id
-            
-            var title = document.createElement("h4");
-            title.className = "pdfTitle";
-            title.innerText = "  " + alert.name;
-            title.style.display = "inline";
-
-            var span = document.createElement('div');
-            span.style.width = "100px";
-            span.style.height = "10px";
-            span.style.border = "1px solid black";
-            span.style.background = alert.color;
-            span.style.display = "inline-block";
-
-            var titleDiv = document.createElement('div');
-
-            titleDiv.appendChild(span);
-            titleDiv.appendChild(title);
-            // titleDiv.appendChild(document.createElement("hr"));
-
-            titleDiv.style.padding = "10px";
-            title.style.color = "#ffffff";
-            title.style.height = "30px";
-
-            titleDiv.style.background = "#3A3A3A"
-
-            var ol = document.createElement("ol");
-            var li;
-
-            for (var j = 0; j < alert.allObject.length; j++) {
-              var item = alert.allObject[j]
-
-              li = document.createElement('li');
-              li.innerText = item.dbId + " - " + item.name;
-              ol.appendChild(li);              
-            }
-
-            div.appendChild(titleDiv);
-            div.appendChild(ol); 
-            detail.appendChild(div);
-
+            create_group_Rapport(detail, alert);
           }
 
-      
-          html2canvas(document.getElementById("myPdfTemplate"),{
-            // width: 730, 
-            // height: 1050,
-            onrendered: function(canvas){
+          create_group_Rapport(detail, theme.referencial, "Non classifié");
+
+          let _title = printWindow.document.querySelector(".title > ._answer");
+          _title.innerHTML = theme.name.get();
+
+          let date_now = new Date();
+          let _date = printWindow.document.querySelector(".date > ._answer");
+          _date.innerHTML = date_now.toLocaleDateString("en-GB");
+
+          let _username = printWindow.document.querySelector(".username > ._answer");
+          _username.innerHTML = $scope.user.username;
+
+
+          // html2canvas(document.getElementById("myPdfTemplate"), {
+          //   // width: 730, 
+          //   // height: 1050,
+          //   onrendered: function (canvas) {
+          //     var imgData = canvas.toDataURL('image/jpeg');
+          //     var doc = new jsPDF({
+          //       unit: "px",
+          //       format: "a4"
+          //     });
+          //     doc.addImage(imgData, 'jpeg', 0, 10);
+          //     doc.save('test.pdf');
+          //     // doc.output("dataurlnewwindow");
+          //   }
+          // })
+          setTimeout(() => {
+            let quotes = printWindow.document.getElementById("myPdfTemplate")
+            html2canvas(quotes).then(function (canvas) {
               var imgData = canvas.toDataURL('image/jpeg');
-              var doc = new jsPDF({unit : "px",format : "a4"});
-              doc.addImage(imgData,'jpeg',0,10);
-              doc.save('test.pdf');
-              // doc.output("dataurlnewwindow");
-            }
-          })
+              // console.log(jsPDF);
+              var doc = new jspdf.default("p", "mm", "a4");
+              // var doc = new jspdf.default({
+              //   unit: "px",
+              //   format: "a4"
+              // });
+              let canvasList = [];
+              // console.log(quotes.clientHeight);
+
+              doc.addImage(imgData, 'jpeg', 0, 10);
+              doc.save('Rapport SpinalBIM - ' + theme.name.get() + ' - ' +
+                date_now.toLocaleDateString("en-GB") + '.pdf');
+
+              setTimeout(() => {
+                // quotes.remove();
+                // for (var i = 0; i < canvasList.length; i++) {
+                //   canvasList[i].remove();
+                // }
+              }, 200);
+              // printWindow.close();
+
+            })
+          }, 200);
 
 
-          
-          
+
+
 
         }
 
-        
+
 
       }
       // end of controller
