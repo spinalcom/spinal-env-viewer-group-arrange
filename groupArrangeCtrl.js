@@ -1,8 +1,8 @@
 (function () {
   angular.module('app.spinalforge.plugin')
-    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService","$templateCache",
+    .controller('groupArrangeCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "createPanelService", "donutService", "$templateCache",
       function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, createPanelService, donutService, $templateCache) {
-        
+
         var viewer = v;
         $scope.selectedGroupId = -1;
         $scope.selectedGroupAlarm = null;
@@ -12,8 +12,8 @@
         $scope.selectGroup = null;
         $scope.tree = viewer.model.getInstanceTree();
         $scope.headerBtnClick = (btn) => {
-          console.log("headerBtnClick");
-          console.log(btn);
+          // console.log("headerBtnClick");
+          // console.log(btn);
           if (btn.label == "add group") {
             $scope.addGroup();
           }
@@ -40,18 +40,18 @@
 
         $scope.allGroup = [];
         spinalModelDictionary.init().then((m) => {
-          console.log("spinal model dictionary");
+          // console.log("spinal model dictionary");
           if (m) {
-            console.log(m);
-            console.log(m.groupAlertPlugin);
+            // console.log(m);
+            // console.log(m.groupAlertPlugin);
             if (m.groupAlertPlugin) {
               m.groupAlertPlugin.load((mod) => {
-                console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
+                // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
                 $scope.selectGroup = mod;
                 $scope.selectGroup.bind($scope.onModelChange);
               });
             } else {
-              console.log("delete of groupe annotation plugin");
+              // console.log("delete of groupe annotation plugin");
               $scope.selectGroup = new Lst();
               m.add_attr({
                 groupAlertPlugin: new Ptr($scope.selectGroup)
@@ -112,8 +112,8 @@
                 const refObject = selectedGroup.referencial.allObject[j];
                 if (refObject.on_off.get()) { // si l'item est allumé
                   if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
-                    console.log("l'objet est dans le referenciel");
-                    console.log("on affiche l'objet avec la couleur du referenciel");
+                    // console.log("l'objet est dans le referenciel");
+                    // console.log("on affiche l'objet avec la couleur du referenciel");
                     // ref.push(refObject.dbId.get());
 
 
@@ -151,7 +151,7 @@
                 const refObject = selectedGroup.referencial.allObject[j];
                 viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
               }
-              console.log("referenciel display false");
+              // console.log("referenciel display false");
             }
           }
         };
@@ -168,11 +168,11 @@
         $scope.selectedGroupFunc = () => {
           for (let i = 0; i < $scope.selectGroup.length; i++) {
             var element = $scope.selectGroup[i];
-            console.log($scope.selectedGroupId);
+            // console.log($scope.selectedGroupId);
             if (element.id.get() == $scope.selectedGroupId) {
-              console.log("MYY IFFFFF");
+              // console.log("MYY IFFFFF");
               $scope.selectedGroup = element;
-              console.log($scope.selectedGroup);
+              // console.log($scope.selectedGroup);
               $scope.selectedGroupAlarm = element.group;
             }
           }
@@ -200,8 +200,8 @@
               .required(true)
               .ok('Confirm').cancel('Cancel'))
             .then(function (result) {
-              console.log("group add");
-              console.log(result);
+              // console.log("group add");
+              // console.log(result);
 
 
               var newGroup = new groupModel(result);
@@ -215,19 +215,19 @@
 
 
         $scope.export = (theme) => {
-          console.log(theme);
+          // console.log(theme);
           spinalModelDictionary.init().then((m) => {
             if (m) {
-              console.log(m);
+              // console.log(m);
               if (m.validationPlugin) {
                 m.validationPlugin.load((mod) => {
                   let res = true;
                   // si validationplugin existe
                   for (let i = 0; i < mod.length; i++) {
                     const element = mod[i];
-                    console.log(element);
-                    console.log(element._server_id);
-                    console.log(theme._server_id);
+                    // console.log(element);
+                    // console.log(element._server_id);
+                    // console.log(theme._server_id);
                     if (element._server_id == theme._server_id)
                       res = false;
                   }
@@ -291,9 +291,9 @@
 
 
         $scope.pickGroup = (element) => {
-          console.log("select group")
+          // console.log("select group")
           $scope.selectedGroup = element;
-          console.log($scope.selectedGroup);
+          // console.log($scope.selectedGroup);
 
           createPanelService.hideShowPanel("groupAlertCtrl", "selectedGroupTemplate.html", element);
 
@@ -301,8 +301,8 @@
 
         $scope.selectAlarm = (element) => {
           $scope.selectedAlarm = element;
-          console.log("select alarm");
-          console.log($scope.selectedAlarm);
+          // console.log("select alarm");
+          // console.log($scope.selectedAlarm);
           // allObjectCtrl.selectAlarmFunc(element);
           allObjectService.hideShowPanel(element);
         }
@@ -318,7 +318,7 @@
             .then(function (result) {
               let mod = FileSystem._objects[note._server_id];
 
-              console.log(mod);
+              // console.log(mod);
 
               if (mod) {
                 if (mod.title)
@@ -332,7 +332,7 @@
 
 
         $scope.viewAllAlert = (groupAlert) => {
-          console.log("ViewAllAlert");
+          // console.log("ViewAllAlert");
           // console.log(groupAlert);
           let tab = [];
           if (groupAlert.referencial.display.get()) {
@@ -367,10 +367,10 @@
             )
             .then(function (result) {
               let mod = FileSystem._objects[selectGroup._server_id];
-              console.log("my endpoint");
-              console.log(mod);
+              // console.log("my endpoint");
+              // console.log(mod);
               var annotation = new groupAlert();
-              console.log(annotation);
+              // console.log(annotation);
               annotation.name.set(result);
               // annotation.owner.set($scope.user.id);
               // annotation.username.set($scope.user.username);
@@ -387,7 +387,7 @@
         };
 
         $scope.deleteGroup = (selectGroup, note = null) => {
-          console.log(note);
+          // console.log(note);
           var dialog = $mdDialog.confirm()
             .ok("Delete !")
             .title('Do you want to remove it?')
@@ -503,7 +503,7 @@
 
 
         $scope.changeItemColor = (alert) => {
-          console.log("changeItemColor");
+          // console.log("changeItemColor");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
             // const bimObject = alert.allObject[i];
@@ -515,7 +515,7 @@
 
 
         $scope.restoreColor = (alert) => {
-          console.log("restore color");
+          // console.log("restore color");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
             // const bimObject = alert.allObject[i];
@@ -563,9 +563,9 @@
         // }
 
         $scope.createRapport = (theme) => {
-          
 
-  /*-------------------------------------------A Modifier ------------------------------------------------*/
+
+          /*-------------------------------------------A Modifier ------------------------------------------------*/
           var data = {
             datasets: [{
               data: [],
@@ -580,7 +580,7 @@
             if (element.group.get() == 0)
               tmp++;
           }
-          
+
           // console.log(tmp);
           data.datasets[0].data.push(tmp);
           data.labels.push(theme.referencial.name.get());
@@ -595,23 +595,23 @@
 
 
 
-  /*-------------------------------------------Fin A Modifier ------------------------------------------------*/
+          /*-------------------------------------------Fin A Modifier ------------------------------------------------*/
 
 
           var body = document.getElementsByTagName("body")[0];
           body.innerHTML += ($templateCache.get('pdfTemplate.html'));
 
-          
+
           var graph = document.getElementById("pdfGraph").getContext('2d');
 
           var myChart = new Chart(graph, {
-            type : "doughnut",
-            data : data,
+            type: "doughnut",
+            data: data,
             options: {
               legend: {
                 position: "top",
                 labels: {
-                  fontColor: "#000000"//"#F8F8F8"
+                  fontColor: "#000000" //"#F8F8F8"
                 }
               },
               responsive: true,
@@ -622,14 +622,14 @@
           })
 
           var detail = document.getElementById("pdfGraphDetail");
-          console.log(detail)
+          // console.log(detail)
 
           for (var i = 0; i < theme.group.length; i++) {
             var alert = theme.group[i]
-            
+
             var div = document.createElement("div");
             div.className = alert.id
-            
+
             var title = document.createElement("h4");
             title.className = "pdfTitle";
             title.innerText = "  " + alert.name;
@@ -662,35 +662,38 @@
 
               li = document.createElement('li');
               li.innerText = item.dbId + " - " + item.name;
-              ol.appendChild(li);              
+              ol.appendChild(li);
             }
 
             div.appendChild(titleDiv);
-            div.appendChild(ol); 
+            div.appendChild(ol);
             detail.appendChild(div);
 
           }
 
-      
-          html2canvas(document.getElementById("myPdfTemplate"),{
+
+          html2canvas(document.getElementById("myPdfTemplate"), {
             // width: 730, 
             // height: 1050,
-            onrendered: function(canvas){
+            onrendered: function (canvas) {
               var imgData = canvas.toDataURL('image/jpeg');
-              var doc = new jsPDF({unit : "px",format : "a4"});
-              doc.addImage(imgData,'jpeg',0,10);
+              var doc = new jsPDF({
+                unit: "px",
+                format: "a4"
+              });
+              doc.addImage(imgData, 'jpeg', 0, 10);
               doc.save('test.pdf');
               // doc.output("dataurlnewwindow");
             }
-          })
+          });
 
 
-          
-          
+
+
 
         }
 
-        
+
 
       }
       // end of controller

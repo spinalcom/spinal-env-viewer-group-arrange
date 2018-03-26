@@ -6,8 +6,8 @@
         $scope.selectedGroupId = -1;
         $scope.user = authService.get_user();
         $scope.headerBtnClick = (btn) => {
-          console.log("headerBtnClick");
-          console.log(btn);
+          // console.log("headerBtnClick");
+          // console.log(btn);
           if (btn.label == "add group") {
             $scope.addGroup();
           }
@@ -98,11 +98,11 @@
         $scope.selectedGroupFunc = () => {
           for (let i = 0; i < $scope.themeGroup.length; i++) {
             var element = $scope.themeGroup[i];
-            console.log($scope.selectedGroupId);
+            // console.log($scope.selectedGroupId);
             if (element.id.get() == $scope.selectedGroupId) {
-              console.log("MYY IFFFFF");
+              // console.log("MYY IFFFFF");
               $scope.selectedGroup = element;
-              console.log($scope.selectedGroup);
+              // console.log($scope.selectedGroup);
               $scope.selectedAlarm = element.group;
             }
           }
@@ -130,8 +130,8 @@
               .required(true)
               .ok('Confirm').cancel('Cancel'))
             .then(function (result) {
-              console.log("group add");
-              console.log(result);
+              // console.log("group add");
+              // console.log(result);
 
 
               var newGroup = new groupModel(result);
@@ -151,15 +151,15 @@
           // update moedels via $scope.themes
           for (var i = 0; i < $scope.themes.length; i++) {
             let note = $scope.themes[i];
-            console.log("repere");
-            console.log(note);
+            // console.log("repere");
+            // console.log(note);
             for (var j = 0; j < note.group.length; j++) {
               let annotation = note.group[j];
-              console.log(annotation);
+              // console.log(annotation);
               let tmp = annotation.color;
               let mod = FileSystem._objects[annotation._server_id];
-              console.log(mod);
-              console.log(tmp);
+              // console.log(mod);
+              // console.log(tmp);
 
               // if (mod) {
               mod.color.set()
@@ -184,8 +184,8 @@
 
         $scope.selectNote = (note) => {
           $scope.selectedNote = note;
-          console.log(note);
-          console.log("ici est affiché ma note actuel");
+          // console.log(note);
+          // console.log("ici est affiché ma note actuel");
           groupPanelService.hideShowPanel(note);
 
         };
@@ -201,7 +201,7 @@
             .then(function (result) {
               let mod = FileSystem._objects[note._server_id];
 
-              console.log(mod);
+              // console.log(mod);
 
               if (mod) {
                 if (mod.title)
@@ -242,7 +242,7 @@
 
 
               var annotation = new groupAlert();
-              console.log(annotation);
+              // console.log(annotation);
               annotation.name.set(result);
               // annotation.owner.set($scope.user.id);
               // annotation.username.set($scope.user.username);
@@ -254,7 +254,7 @@
               }
 
             }, () => {
-              console.log("canceled")
+              console.log("canceled");
             });
         };
 
@@ -313,9 +313,9 @@
             propFilter: ['name']
           }, (models) => {
             let mod = FileSystem._objects[annotation._server_id];
-            console.log(mod);
-            console.log(models.dbid);
-            console.log(models.name);
+            // console.log(mod);
+            // console.log(models.dbid);
+            // console.log(models.name);
             if (mod) {
               for (var i = 0; i < models.length; i++) {
                 var newBimObject = new bimObject();
@@ -364,7 +364,7 @@
 
             mod.display.set(true);
 
-            console.log(mod.color);
+            // console.log(mod.color);
 
             viewer.setColorMaterial(ids, theme.color, mod._server_id);
           }
