@@ -215,6 +215,7 @@
 
 
         $scope.export = (theme) => {
+          // console.log("export");
           // console.log(theme);
           spinalModelDictionary.init().then((m) => {
             if (m) {
@@ -231,8 +232,60 @@
                     if (element._server_id == theme._server_id)
                       res = false;
                   }
-                  if (res)
+
+                  let present = true;
+                  let nonPresent = true;
+                  let rempli = true;
+
+
+                  for (let i = 0; i < theme.group.length; i++) {
+                    const group = theme.group[i];
+                    if (group.name.get() == "Présent")
+                      present = false;
+                    if (group.name.get() == "Non présent")
+                      nonPresent = false;
+                    if (group.name.get() == "Non rempli")
+                      rempli = false;
+                  }
+                  if (present) {
+                    let alert = new groupAlert("Présent", "#57D53B");
+                    alert.id.set(theme.group.length + 1);
+                    console.log(alert);
+                    theme.group.push(alert)
+                  } // ICI AJOUTER UN GROUPE PRESENT
+                  if (rempli) {
+                    let alert = new groupAlert("Non rempli", "#FA6203");
+                    alert.id.set(theme.group.length + 1);
+                    console.log(alert);
+                    theme.group.push(alert)
+                  } // ICI AJOUTER UN GROUPE PRESENT
+                  if (nonPresent) {
+                    let alert = new groupAlert("Non présent", "#F20909");
+                    alert.id.set(theme.group.length + 1);
+                    theme.group.push(alert);
+                    console.log(alert);
+                  } // ICI AJOUTER UN GROUPE PRESENT
+
+                  if (res) {
+                    // let mod = FileSystem._objects[selectedGroup._server_id];
+                    // // console.log("my endpoint");
+                    // // console.log(mod);
+                    // var alert = new groupAlert();
+                    // // console.log(alert);
+                    // alert.name.set(result);
+                    // alert.id.set(mod.group.length + 1);
+                    // // alert.owner.set($scope.user.id);
+                    // // alert.username.set($scope.user.username);
+
+                    // if (mod) {
+                    //   mod.group.push(alert);
+                    // } else {
+                    //   console.log("mod null");
+                    // }
+
                     mod.push(theme);
+
+                  }
                   // mod.push(theme);
                 });
               } else {
@@ -330,6 +383,27 @@
             }, () => {});
         };
 
+        $scope.viewRemoveAllAlert = () => {
+          spinalModelDictionary.init().then((m) => {
+            // console.log("spinal model dictionary");
+            if (m) {
+              // console.log(m);
+              // console.log(m.groupAlertPlugin);
+              if (m.groupAlertPlugin) {
+                m.groupAlertPlugin.load((mod) => {
+                  // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
+                  console.log(mod);
+                  for (let i = 0; i < mod.length; i++) {
+                    const theme = mod[i];
+                    theme.referencial.display.set(false);
+                  }
+                });
+              }
+            }
+          }, function () {
+            console.log("model unreachable");
+          });
+        };
 
         $scope.viewAllAlert = (groupAlert) => {
           // console.log("ViewAllAlert");

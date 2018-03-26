@@ -17,6 +17,12 @@
       <md-list-item class="md-1-line" style="padding: 0 8px;">
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 
+          <md-button aria-label="Fermer" class="md-secondary i_btn" ng-click="viewRemoveAllAlert()">
+            <!-- TO DO -->
+            <md-tooltip>Display object</md-tooltip>
+            <i class="fa fa-eye"></i>
+          </md-button>
+
           <md-button ng-repeat="btn in headerBtn" class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px; padding:0;"
             ng-click="headerBtnClick(btn)">
             <md-tooltip>{{btn.label}}</md-tooltip>
@@ -78,10 +84,10 @@
       </md-button>
 
       <md-button aria-label="Rapport" class="md-secondary i_btn" ng-click="createRapport(theme)">
-          <!-- TO DO -->
-          <md-tooltip>Rapport</md-tooltip>
-          <i class="fa fa-book"></i>
-        </md-button>
+        <!-- TO DO -->
+        <md-tooltip>Rapport</md-tooltip>
+        <i class="fa fa-book"></i>
+      </md-button>
 
     </md-list-item>
   </div>
