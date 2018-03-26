@@ -15,8 +15,8 @@ import * as jspdf from 'jspdf'
         $scope.selectGroup = null;
         $scope.tree = viewer.model.getInstanceTree();
         $scope.headerBtnClick = (btn) => {
-          console.log("headerBtnClick");
-          console.log(btn);
+          // console.log("headerBtnClick");
+          // console.log(btn);
           if (btn.label == "add group") {
             $scope.addGroup();
           }
@@ -43,18 +43,18 @@ import * as jspdf from 'jspdf'
 
         $scope.allGroup = [];
         spinalModelDictionary.init().then((m) => {
-          console.log("spinal model dictionary");
+          // console.log("spinal model dictionary");
           if (m) {
-            console.log(m);
-            console.log(m.groupAlertPlugin);
+            // console.log(m);
+            // console.log(m.groupAlertPlugin);
             if (m.groupAlertPlugin) {
               m.groupAlertPlugin.load((mod) => {
-                console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
+                // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
                 $scope.selectGroup = mod;
                 $scope.selectGroup.bind($scope.onModelChange);
               });
             } else {
-              console.log("delete of groupe annotation plugin");
+              // console.log("delete of groupe annotation plugin");
               $scope.selectGroup = new Lst();
               m.add_attr({
                 groupAlertPlugin: new Ptr($scope.selectGroup)
@@ -115,8 +115,8 @@ import * as jspdf from 'jspdf'
                 const refObject = selectedGroup.referencial.allObject[j];
                 if (refObject.on_off.get()) { // si l'item est allumé
                   if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
-                    console.log("l'objet est dans le referenciel");
-                    console.log("on affiche l'objet avec la couleur du referenciel");
+                    // console.log("l'objet est dans le referenciel");
+                    // console.log("on affiche l'objet avec la couleur du referenciel");
                     // ref.push(refObject.dbId.get());
 
 
@@ -154,7 +154,7 @@ import * as jspdf from 'jspdf'
                 const refObject = selectedGroup.referencial.allObject[j];
                 viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
               }
-              console.log("referenciel display false");
+              // console.log("referenciel display false");
             }
           }
         };
@@ -171,11 +171,11 @@ import * as jspdf from 'jspdf'
         $scope.selectedGroupFunc = () => {
           for (let i = 0; i < $scope.selectGroup.length; i++) {
             var element = $scope.selectGroup[i];
-            console.log($scope.selectedGroupId);
+            // console.log($scope.selectedGroupId);
             if (element.id.get() == $scope.selectedGroupId) {
-              console.log("MYY IFFFFF");
+              // console.log("MYY IFFFFF");
               $scope.selectedGroup = element;
-              console.log($scope.selectedGroup);
+              // console.log($scope.selectedGroup);
               $scope.selectedGroupAlarm = element.group;
             }
           }
@@ -203,8 +203,8 @@ import * as jspdf from 'jspdf'
               .required(true)
               .ok('Confirm').cancel('Cancel'))
             .then(function (result) {
-              console.log("group add");
-              console.log(result);
+              // console.log("group add");
+              // console.log(result);
 
 
               var newGroup = new groupModel(result);
@@ -218,24 +218,77 @@ import * as jspdf from 'jspdf'
 
 
         $scope.export = (theme) => {
-          console.log(theme);
+          // console.log("export");
+          // console.log(theme);
           spinalModelDictionary.init().then((m) => {
             if (m) {
-              console.log(m);
+              // console.log(m);
               if (m.validationPlugin) {
                 m.validationPlugin.load((mod) => {
                   let res = true;
                   // si validationplugin existe
                   for (let i = 0; i < mod.length; i++) {
                     const element = mod[i];
-                    console.log(element);
-                    console.log(element._server_id);
-                    console.log(theme._server_id);
+                    // console.log(element);
+                    // console.log(element._server_id);
+                    // console.log(theme._server_id);
                     if (element._server_id == theme._server_id)
                       res = false;
                   }
-                  if (res)
+
+                  let present = true;
+                  let nonPresent = true;
+                  let rempli = true;
+
+
+                  for (let i = 0; i < theme.group.length; i++) {
+                    const group = theme.group[i];
+                    if (group.name.get() == "Présent")
+                      present = false;
+                    if (group.name.get() == "Non présent")
+                      nonPresent = false;
+                    if (group.name.get() == "Non rempli")
+                      rempli = false;
+                  }
+                  if (present) {
+                    let alert = new groupAlert("Présent", "#57D53B");
+                    alert.id.set(theme.group.length + 1);
+                    console.log(alert);
+                    theme.group.push(alert)
+                  } // ICI AJOUTER UN GROUPE PRESENT
+                  if (rempli) {
+                    let alert = new groupAlert("Non rempli", "#FA6203");
+                    alert.id.set(theme.group.length + 1);
+                    console.log(alert);
+                    theme.group.push(alert)
+                  } // ICI AJOUTER UN GROUPE PRESENT
+                  if (nonPresent) {
+                    let alert = new groupAlert("Non présent", "#F20909");
+                    alert.id.set(theme.group.length + 1);
+                    theme.group.push(alert);
+                    console.log(alert);
+                  } // ICI AJOUTER UN GROUPE PRESENT
+
+                  if (res) {
+                    // let mod = FileSystem._objects[selectedGroup._server_id];
+                    // // console.log("my endpoint");
+                    // // console.log(mod);
+                    // var alert = new groupAlert();
+                    // // console.log(alert);
+                    // alert.name.set(result);
+                    // alert.id.set(mod.group.length + 1);
+                    // // alert.owner.set($scope.user.id);
+                    // // alert.username.set($scope.user.username);
+
+                    // if (mod) {
+                    //   mod.group.push(alert);
+                    // } else {
+                    //   console.log("mod null");
+                    // }
+
                     mod.push(theme);
+
+                  }
                   // mod.push(theme);
                 });
               } else {
@@ -294,9 +347,9 @@ import * as jspdf from 'jspdf'
 
 
         $scope.pickGroup = (element) => {
-          console.log("select group")
+          // console.log("select group")
           $scope.selectedGroup = element;
-          console.log($scope.selectedGroup);
+          // console.log($scope.selectedGroup);
 
           createPanelService.hideShowPanel("groupAlertCtrl", "selectedGroupTemplate.html", element);
 
@@ -304,8 +357,8 @@ import * as jspdf from 'jspdf'
 
         $scope.selectAlarm = (element) => {
           $scope.selectedAlarm = element;
-          console.log("select alarm");
-          console.log($scope.selectedAlarm);
+          // console.log("select alarm");
+          // console.log($scope.selectedAlarm);
           // allObjectCtrl.selectAlarmFunc(element);
           allObjectService.hideShowPanel(element);
         }
@@ -321,7 +374,7 @@ import * as jspdf from 'jspdf'
             .then(function (result) {
               let mod = FileSystem._objects[note._server_id];
 
-              console.log(mod);
+              // console.log(mod);
 
               if (mod) {
                 if (mod.title)
@@ -333,9 +386,30 @@ import * as jspdf from 'jspdf'
             }, () => {});
         };
 
+        $scope.viewRemoveAllAlert = () => {
+          spinalModelDictionary.init().then((m) => {
+            // console.log("spinal model dictionary");
+            if (m) {
+              // console.log(m);
+              // console.log(m.groupAlertPlugin);
+              if (m.groupAlertPlugin) {
+                m.groupAlertPlugin.load((mod) => {
+                  // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
+                  console.log(mod);
+                  for (let i = 0; i < mod.length; i++) {
+                    const theme = mod[i];
+                    theme.referencial.display.set(false);
+                  }
+                });
+              }
+            }
+          }, function () {
+            console.log("model unreachable");
+          });
+        };
 
         $scope.viewAllAlert = (groupAlert) => {
-          console.log("ViewAllAlert");
+          // console.log("ViewAllAlert");
           // console.log(groupAlert);
           let tab = [];
           if (groupAlert.referencial.display.get()) {
@@ -370,10 +444,10 @@ import * as jspdf from 'jspdf'
             )
             .then(function (result) {
               let mod = FileSystem._objects[selectGroup._server_id];
-              console.log("my endpoint");
-              console.log(mod);
+              // console.log("my endpoint");
+              // console.log(mod);
               var annotation = new groupAlert();
-              console.log(annotation);
+              // console.log(annotation);
               annotation.name.set(result);
               // annotation.owner.set($scope.user.id);
               // annotation.username.set($scope.user.username);
@@ -390,7 +464,7 @@ import * as jspdf from 'jspdf'
         };
 
         $scope.deleteGroup = (selectGroup, note = null) => {
-          console.log(note);
+          // console.log(note);
           var dialog = $mdDialog.confirm()
             .ok("Delete !")
             .title('Do you want to remove it?')
@@ -506,7 +580,7 @@ import * as jspdf from 'jspdf'
 
 
         $scope.changeItemColor = (alert) => {
-          console.log("changeItemColor");
+          // console.log("changeItemColor");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
             // const bimObject = alert.allObject[i];
@@ -518,7 +592,7 @@ import * as jspdf from 'jspdf'
 
 
         $scope.restoreColor = (alert) => {
-          console.log("restore color");
+          // console.log("restore color");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
             // const bimObject = alert.allObject[i];
@@ -627,6 +701,16 @@ import * as jspdf from 'jspdf'
 
         $scope.createRapport = (theme) => {
 
+          <<
+          <<
+          << < HEAD
+            ===
+            ===
+            =
+
+            >>>
+            >>>
+            > 74 fb862931d491f634855bf89f5982038369c22e
           /*-------------------------------------------A Modifier ------------------------------------------------*/
           var data = {
             datasets: [{
@@ -751,15 +835,7 @@ import * as jspdf from 'jspdf'
 
             })
           }, 200);
-
-
-
-
-
         }
-
-
-
       }
       // end of controller
     ]);

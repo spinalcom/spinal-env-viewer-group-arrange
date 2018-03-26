@@ -2,8 +2,8 @@
   angular.module('app.spinalforge.plugin')
     .controller('donutCtrl', ["$scope", "$rootScope", "$mdToast", "$mdDialog", "authService", "$compile", "$injector", "layout_uid", "spinalModelDictionary", "$q", "groupPanelService", "allObjectService", "donutFactory",
       function ($scope, $rootScope, $mdToast, $mdDialog, authService, $compile, $injector, layout_uid, spinalModelDictionary, $q, groupPanelService, allObjectService, donutFactory) {
-        
-        
+
+
         var viewer = v;
         var callback = () => {
           $scope.$apply();
@@ -11,8 +11,8 @@
         $scope.selectedObject = donutFactory.getSelected();
         // $scope.selectedObject.bind($scope.donuts());
         donutFactory.getSelected().bind(callback);
-        console.log("there is donut controller");
-        console.log($scope.selectedObject);
+        // console.log("there is donut controller");
+        // console.log($scope.selectedObject);
 
         $scope.uid = layout_uid.get();
         $scope.getUID = () => {
@@ -35,7 +35,7 @@
             $scope.data.datasets[0].backgroundColor.splice(0, $scope.data.datasets[0].backgroundColor.length);
             $scope.data.labels.splice(0, $scope.data.labels.length);
           }
-          console.log($scope.data);
+          // console.log($scope.data);
           let tmp = 0;
           for (let i = 0; i < $scope.selectedObject.referencial.allObject.length; i++) {
             const element = $scope.selectedObject.referencial.allObject[i];
@@ -54,7 +54,7 @@
             $scope.data.labels.push($scope.selectedObject.group[i].name.get());
             $scope.data.datasets[0].backgroundColor.push($scope.selectedObject.group[i].color.get());
           }
-          console.log($scope.data);
+          // console.log($scope.data);
           if ($scope.myDonut)
 
             $scope.myDonut.update();

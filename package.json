@@ -1,6 +1,6 @@
 {
   "name": "spinal-env-viewer-group-arrange",
-  "version": "1.0.0",
+  "version": "v1.0.1",
   "description": "spinal-env-viewer-group-arrange",
   "main": "main.js",
   "dependencies": {

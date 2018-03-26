@@ -10,8 +10,8 @@
         };
         $scope.selectedObject = createPanelfactory.getSelected();
         createPanelfactory.getSelected().bind(callback);
-        console.log("there is groupAlert controller");
-        console.log($scope.selectedObject);
+        // console.log("there is groupAlert controller");
+        // console.log($scope.selectedObject);
 
         $scope.group = $scope.selectedObject.group;
 
@@ -23,7 +23,7 @@
         }
 
         $scope.viewAllAlert = (groupAlert) => {
-          console.log("ViewAllAlert");
+          // console.log("ViewAllAlert");
           // console.log(groupAlert);
           let tab = [];
           if (groupAlert.referencial.display.get()) {
@@ -83,7 +83,7 @@
             .then(function (result) {
               let mod = FileSystem._objects[selectedGroup.referencial._server_id];
 
-              console.log(mod);
+              // console.log(mod);
 
               if (mod) {
                 if (mod.name)
@@ -107,10 +107,10 @@
             )
             .then(function (result) {
               let mod = FileSystem._objects[selectedGroup._server_id];
-              console.log("my endpoint");
-              console.log(mod);
+              // console.log("my endpoint");
+              // console.log(mod);
               var alert = new groupAlert();
-              console.log(alert);
+              // console.log(alert);
               alert.name.set(result);
               alert.id.set(mod.group.length + 1);
               // alert.owner.set($scope.user.id);
@@ -145,7 +145,7 @@
             .then(function (result) {
               let mod = FileSystem._objects[alert._server_id];
 
-              console.log(mod);
+              // console.log(mod);
 
               if (mod) {
                 if (mod.name)
@@ -161,8 +161,8 @@
 
 
         $scope.deleteAlert = (theme, note = null) => {
-          console.log(note);
-          console.log(theme);
+          // console.log(note);
+          // console.log(theme);
           var dialog = $mdDialog.confirm()
             .ok("Delete !")
             .title('Do you want to remove it?')
@@ -182,10 +182,10 @@
                 }
               }
               let tmpAllObject = $scope.selectedObject.allObject;
-              console.log(tmpAllObject);
+              // console.log(tmpAllObject);
               for (let i = 0; i < tmpAllObject.length; i++) {
                 const element = tmpAllObject[i];
-                console.log(element);
+                // console.log(element);
                 if (element.group.get() == id) {
                   element.group.set(0);
                   restoreColor(element);
@@ -198,8 +198,8 @@
 
         $scope.selectAlarm = (element) => {
           $scope.selectedAlarm = element;
-          console.log("select alarm");
-          console.log($scope.selectedAlarm);
+          // console.log("select alarm");
+          // console.log($scope.selectedAlarm);
           // allObjectCtrl.selectAlarmFunc(element);
           allObjectService.hideShowPanel(element, $scope.selectedObject);
         };
@@ -210,7 +210,7 @@
         };
 
         $scope.viewAlarm = (alert) => {
-          console.log($scope.selectedObject);
+          // console.log($scope.selectedObject);
           if ($scope.selectedObject.referencial.display.get() == false)
             $scope.selectedObject.referencial.display.set(true);
           if (alert.display.get()) {
@@ -223,7 +223,7 @@
         };
 
         $scope.changeItemColor = (alert) => {
-          console.log("changeItemColor");
+          // console.log("changeItemColor");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
             const bimObject = alert.allObject[i];
@@ -234,21 +234,21 @@
 
 
         function restoreColor(item) {
-          console.log("restore color");
-          console.log(item);
+          // console.log("restore color");
+          // console.log(item);
           viewer.restoreColorMaterial([item.dbId.get()], item._server_id);
         }
 
 
         $scope.selectColor = (alarm) => {
-          console.log("selectedColor");
-          console.log(alarm);
+          // console.log("selectedColor");
+          // console.log(alarm);
         };
 
         $scope.$on('colorpicker-closed', function (data1, data2) {
-          console.log(data1);
-          console.log(data2);
-          console.log(data1.targetScope.selectedAlarm);
+          // console.log(data1);
+          // console.log(data2);
+          // console.log(data1.targetScope.selectedAlarm);
           data1.stopPropagation();
           if (data2.name == "nimp.color")
             data1.targetScope.selectedObject.referencial.color.set(data2.value);
