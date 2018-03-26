@@ -701,16 +701,6 @@ import * as jspdf from 'jspdf'
 
         $scope.createRapport = (theme) => {
 
-          <<
-          <<
-          << < HEAD
-            ===
-            ===
-            =
-
-            >>>
-            >>>
-            > 74 fb862931d491f634855bf89f5982038369c22e
           /*-------------------------------------------A Modifier ------------------------------------------------*/
           var data = {
             datasets: [{
