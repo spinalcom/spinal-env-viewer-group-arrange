@@ -28,13 +28,9 @@
             }
 
             console.log("ici est la liste des allObject");
-            // console.log($scope.selectedAlert);
-            // console.log($scope.selectedObject);
             $scope.allObject = mod.allObject;
-            // $scope.$apply();
             $scope.selectedObject.bind($scope.onModelChange);
           }
-          // $scope.openAlertList();
         }
 
         $scope.onModelChange = () => {
@@ -92,20 +88,16 @@
           for (let i = 0; i < object.referencial.allObject.length; i++) {
             const element = object.referencial.allObject[i];
             restoreColor(element);
-            // viewer.restoreColorMaterial([element.dbId.get()], element._server_id);
           }
           object.referencial.allObject.splice(0, object.referencial.allObject.length);
         };
 
         function restoreColor(item) {
           console.log("restore color");
-          console.log(item);
           viewer.restoreColorMaterial([item.dbId.get()], item._server_id);
         }
 
         $scope.$on('colorpicker-closed', function (data1, data2) {
-          console.log(data1);
-          console.log(data2);
           data1.targetScope.selectedAlert.color.set(data2.value);
         });
 
@@ -131,7 +123,6 @@
         $scope.donut = (groupArrange) => {
 
           donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
-          // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
         };
 
         $scope.openAlertList = () => {
@@ -145,8 +136,6 @@
             const element = $scope.selectedObject.group[i];
             $scope.alertList.push(element);
           }
-
-          // console.log($scope.alertList);
         };
 
 
@@ -165,11 +154,6 @@
             propFilter: ['name']
           }, (models) => {
             let mod = FileSystem._objects[note._server_id];
-            console.log("ici est l'éxecution de additem in referencial")
-            console.log(mod);
-            console.log(models);
-            console.log($scope.tree);
-
 
             let valide = true;
             if (mod) {
@@ -207,6 +191,7 @@
           });
 
         };
+
 
         $scope.renameReferencial = (selectedGroup) => {
           $mdDialog.show($mdDialog.prompt()
@@ -270,7 +255,9 @@
             }
           }
         };
-
+        $scope.getSelectedObjectNb = (selectedObject) => {
+          return selectedObject.allObject.length;
+        };
       }
       // end of controller
     ]);

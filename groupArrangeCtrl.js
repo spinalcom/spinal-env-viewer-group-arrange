@@ -21,32 +21,17 @@ import * as jspdf from 'jspdf'
             $scope.addGroup();
           }
         };
-        //   uri: '../templates/spinal-env-viewer-group-arrange/selectedGroupTemplate.html',
-        //   name: 'selectedGroupTemplate.html'
 
         $scope.headerBtn = [{
-            label: "add group",
-            icon: "note_add"
-          }
-          // ,
-          // {
-          //   label: "visibility",
-          //   icon: "visibility",
-          //   toggleIcon: ""
-          // },
-          // {
-          //   label: "visibility cancel",
-          //   icon: "visibility_off"
-          // },
-        ];
+          label: "add group",
+          icon: "note_add"
+        }];
         $scope.currentVisibleObj = [];
 
         $scope.allGroup = [];
         spinalModelDictionary.init().then((m) => {
           // console.log("spinal model dictionary");
           if (m) {
-            // console.log(m);
-            // console.log(m.groupAlertPlugin);
             if (m.groupAlertPlugin) {
               m.groupAlertPlugin.load((mod) => {
                 // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
@@ -67,7 +52,6 @@ import * as jspdf from 'jspdf'
         });
 
         function deferObjRdy(model, promise) {
-          // console.log(model, model._server_id);
           if (!model._server_id || FileSystem._tmp_objects[model._server_id]) {
             setTimeout(() => {
               deferObjRdy(model, promise);
@@ -96,8 +80,6 @@ import * as jspdf from 'jspdf'
             for (var i = 0; i < $scope.selectGroup.length; i++) {
               let note = $scope.selectGroup[i];
               $scope.allGroup.push(note);
-              // $scope.selectedGroup = $scope.allGroup[1].name;
-
               if ($scope.selectedNote && $scope.selectedNote._server_id == note._server_id) {
                 $scope.selectedNote = note;
               }
@@ -115,31 +97,18 @@ import * as jspdf from 'jspdf'
                 const refObject = selectedGroup.referencial.allObject[j];
                 if (refObject.on_off.get()) { // si l'item est allumé
                   if (refObject.group.get() == 0) { // si le groupe de l'objet est 0
-                    // console.log("l'objet est dans le referenciel");
-                    // console.log("on affiche l'objet avec la couleur du referenciel");
-                    // ref.push(refObject.dbId.get());
-
-
                     if (selectedGroup.referencial.display.get())
                       viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), refObject._server_id);
                     else
                       viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
 
-
-                    // viewer.setColorMaterial([refObject.dbId.get()], selectedGroup.referencial.color.get(), refObject._server_id);
-                    // viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
-                    // console.log(refObject);
                   } else {
-                    // console.log("l'objet est dans un groupe");
                     for (let k = 0; k < selectedGroup.group.length; k++) {
                       const alert = selectedGroup.group[k];
                       if (refObject.group.get() == alert.id.get()) { // si l'objet est dans l'alert
                         if (alert.display.get()) { //si le display de l'alert est true
-                          // console.log("on affiche l'objet avec la couleur de l'alert");
-                          // console.log(refObject.dbId.get());
                           viewer.setColorMaterial([refObject.dbId.get()], alert.color.get(), refObject._server_id);
                         } else { // si le display de l'alert est false
-                          // console.log("on delete l'affichage de l'objet");
                           viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
                         }
                       }
@@ -154,7 +123,6 @@ import * as jspdf from 'jspdf'
                 const refObject = selectedGroup.referencial.allObject[j];
                 viewer.restoreColorMaterial([refObject.dbId.get()], refObject._server_id);
               }
-              // console.log("referenciel display false");
             }
           }
         };
@@ -163,7 +131,6 @@ import * as jspdf from 'jspdf'
         $scope.donut = (groupArrange) => {
 
           donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
-          // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
         };
 
 
@@ -181,18 +148,6 @@ import * as jspdf from 'jspdf'
           }
         };
 
-        // $scope.addPanel = () => {
-        //   newPanel = new PanelClass(v, "message Panel");
-        //   newPanel.container.style.right = "0px";
-        //   newPanel.container.style.width = "400px";
-        //   newPanel.container.style.height = "600px";
-        //   newPanel.container.padding = "0px";
-
-        //   var _container = document.createElement('div');
-        //   _container.style.height = "calc(100% - 45px)";
-        //   _container.style.overflowY = 'auto';
-        //   newPanel.container.appendChild(_container);
-        // }
 
         $scope.addGroup = () => {
           $mdDialog.show($mdDialog.prompt()
@@ -203,9 +158,6 @@ import * as jspdf from 'jspdf'
               .required(true)
               .ok('Confirm').cancel('Cancel'))
             .then(function (result) {
-              // console.log("group add");
-              // console.log(result);
-
 
               var newGroup = new groupModel(result);
               newGroup.owner.set($scope.user.id);
@@ -218,8 +170,7 @@ import * as jspdf from 'jspdf'
 
 
         $scope.export = (theme) => {
-          // console.log("export");
-          // console.log(theme);
+
           spinalModelDictionary.init().then((m) => {
             if (m) {
               // console.log(m);
@@ -229,9 +180,6 @@ import * as jspdf from 'jspdf'
                   // si validationplugin existe
                   for (let i = 0; i < mod.length; i++) {
                     const element = mod[i];
-                    // console.log(element);
-                    // console.log(element._server_id);
-                    // console.log(theme._server_id);
                     if (element._server_id == theme._server_id)
                       res = false;
                   }
@@ -255,41 +203,23 @@ import * as jspdf from 'jspdf'
                     alert.id.set(theme.group.length + 1);
                     console.log(alert);
                     theme.group.push(alert)
-                  } // ICI AJOUTER UN GROUPE PRESENT
+                  }
                   if (rempli) {
                     let alert = new groupAlert("Non rempli", "#FA6203");
                     alert.id.set(theme.group.length + 1);
                     console.log(alert);
                     theme.group.push(alert)
-                  } // ICI AJOUTER UN GROUPE PRESENT
+                  }
                   if (nonPresent) {
                     let alert = new groupAlert("Non présent", "#F20909");
                     alert.id.set(theme.group.length + 1);
                     theme.group.push(alert);
                     console.log(alert);
-                  } // ICI AJOUTER UN GROUPE PRESENT
+                  }
 
                   if (res) {
-                    // let mod = FileSystem._objects[selectedGroup._server_id];
-                    // // console.log("my endpoint");
-                    // // console.log(mod);
-                    // var alert = new groupAlert();
-                    // // console.log(alert);
-                    // alert.name.set(result);
-                    // alert.id.set(mod.group.length + 1);
-                    // // alert.owner.set($scope.user.id);
-                    // // alert.username.set($scope.user.username);
-
-                    // if (mod) {
-                    //   mod.group.push(alert);
-                    // } else {
-                    //   console.log("mod null");
-                    // }
-
                     mod.push(theme);
-
                   }
-                  // mod.push(theme);
                 });
               } else {
 
@@ -309,31 +239,6 @@ import * as jspdf from 'jspdf'
 
 
         };
-        // spinalModelDictionary.init().then((m) => {
-        //   console.log("spinal model dictionary");
-        //   if (m) {
-        //     console.log(m);
-        //     console.log(m.groupAlertPlugin);
-        //     if (m.groupAlertPlugin) {
-        //       m.groupAlertPlugin.load((mod) => {
-        //         console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
-        //         $scope.selectGroup = mod;
-        //         $scope.selectGroup.bind($scope.onModelChange);
-        //       });
-        //     } else {
-        //       console.log("delete of groupe annotation plugin");
-        //       $scope.selectGroup = new Lst();
-        //       m.add_attr({
-        //         groupAlertPlugin: new Ptr($scope.selectGroup)
-        //       });
-        //       $scope.selectGroup.bind($scope.onModelChange);
-        //     }
-        //   }
-        // }, function () {
-        //   console.log("model unreachable");
-        // });
-
-
 
 
         $scope.selectedNote = null;
@@ -347,19 +252,13 @@ import * as jspdf from 'jspdf'
 
 
         $scope.pickGroup = (element) => {
-          // console.log("select group")
           $scope.selectedGroup = element;
-          // console.log($scope.selectedGroup);
-
           createPanelService.hideShowPanel("groupAlertCtrl", "selectedGroupTemplate.html", element);
 
         };
 
         $scope.selectAlarm = (element) => {
           $scope.selectedAlarm = element;
-          // console.log("select alarm");
-          // console.log($scope.selectedAlarm);
-          // allObjectCtrl.selectAlarmFunc(element);
           allObjectService.hideShowPanel(element);
         }
 
@@ -390,8 +289,6 @@ import * as jspdf from 'jspdf'
           spinalModelDictionary.init().then((m) => {
             // console.log("spinal model dictionary");
             if (m) {
-              // console.log(m);
-              // console.log(m.groupAlertPlugin);
               if (m.groupAlertPlugin) {
                 m.groupAlertPlugin.load((mod) => {
                   // console.log("ON CHARGE LES DONNEE PRESENTE DANS GROUPE ANNOTATION PLUGIN");
@@ -409,8 +306,6 @@ import * as jspdf from 'jspdf'
         };
 
         $scope.viewAllAlert = (groupAlert) => {
-          // console.log("ViewAllAlert");
-          // console.log(groupAlert);
           let tab = [];
           if (groupAlert.referencial.display.get()) {
             for (let i = 0; i < groupAlert.group.length; i++) {
@@ -444,13 +339,8 @@ import * as jspdf from 'jspdf'
             )
             .then(function (result) {
               let mod = FileSystem._objects[selectGroup._server_id];
-              // console.log("my endpoint");
-              // console.log(mod);
               var annotation = new groupAlert();
-              // console.log(annotation);
               annotation.name.set(result);
-              // annotation.owner.set($scope.user.id);
-              // annotation.username.set($scope.user.username);
 
               if (mod) {
                 mod.group.push(annotation);
@@ -506,88 +396,11 @@ import * as jspdf from 'jspdf'
 
 
 
-        // $scope.addItemInReferencial = (note) => {
-
-        //   var items = viewer.getSelection();
-        //   console.log("addItemInReferencial");
-        //   console.log("items");
-        //   if (items.length == 0) {
-        //     alert('No model selected !');
-        //     return;
-        //   }
-
-        //   viewer.model.getBulkProperties(items, {
-        //     propFilter: ['name']
-        //   }, (models) => {
-        //     let mod = FileSystem._objects[note._server_id];
-        //     console.log("ici est l'éxecution de additem in referencial")
-        //     console.log(mod);
-        //     console.log(models);
-        //     console.log($scope.tree);
-
-
-        //     let valide = true;
-        //     if (mod) {
-        //       for (var i = 0; i < models.length; i++) {
-        //         for (let j = 0; j < mod.allObject.length; j++) {
-        //           if (mod.allObject[j].dbId.get() == models[i].dbId)
-        //             valide = false;
-        //         }
-        //         if (valide) {
-        //           $scope.tree.enumNodeChildren(models[0].dbId, (child) => {
-        //             if ($scope.tree.getChildCount(child) == 0) {
-        //               var newBimObject = new bimObject();
-        //               newBimObject.dbId.set(child);
-        //               newBimObject.name.set(viewer.model.getData().instanceTree.getNodeName(child));
-        //               newBimObject.group.set(0);
-        //               mod.allObject.push(newBimObject);
-        //             }
-        //           }, true);
-        //         }
-        //         valide = true;
-        //       }
-
-        //       var toast = $mdToast.simple()
-        //         .content("Item added !")
-        //         .action('OK')
-        //         .highlightAction(true)
-        //         .hideDelay(0)
-        //         .position('bottom right')
-        //         .parent("body");
-
-        //       $mdToast.show(toast);
-
-        //     }
-
-        //   })
-
-        // }
-
-
-
-
-
-
-
-        $scope.commentNote = (selectGroup) => {
-          // messagePanelService.hideShowPanel(selectGroup);
-        };
-
-        $scope.sendFile = (selectGroup) => {
-          // FilePanelService.hideShowPanel(selectGroup);
-        }
-
-
-
         $scope.changeItemColor = (alert) => {
-          // console.log("changeItemColor");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
-            // const bimObject = alert.allObject[i];
-            // dbIdList.push(bimObject.dbId.get());
             alert.display.set(true);
           }
-          // viewer.setColorMaterial(dbIdList, alert.color.get(), alert._server_id);
         };
 
 
@@ -595,49 +408,9 @@ import * as jspdf from 'jspdf'
           // console.log("restore color");
           let dbIdList = [];
           for (let i = 0; i < alert.allObject.length; i++) {
-            // const bimObject = alert.allObject[i];
-            // dbIdList.push(bimObject.dbId.get());
             alert.display.set(false);
           }
-          // viewer.restoreColorMaterial(dbIdList, alert._server_id);
         };
-
-
-        // changeAllItemsColor() {
-        //   var objects = [];
-        //   var notes = this.model;
-        //   for (var i = 0; i < notes.length; i++) {
-        //     var ids = [];
-        //     var color;
-        //     for (var j = 0; j < notes[i].allObject.length; j++) {
-        //       ids.push(notes[i].allObject[j].dbId.get());
-        //     }
-        //     color = notes[i].color.get();
-        //     objects.push({
-        //       ids: ids,
-        //       color: color,
-        //       id: notes[i].id
-        //     });
-        //   }
-        //   this.viewer.colorAllMaterials(objects);
-        // }
-
-        // restoreAllItemsColor() {
-        //   var objects = [];
-        //   var notes = this.model;
-        //   for (var i = 0; i < notes.length; i++) {
-        //     var ids = [];
-
-        //     for (var j = 0; j < notes[i].allObject.length; j++) {
-        //       ids.push(notes[i].allObject[j].dbId.get());
-        //     }
-        //     objects.push({
-        //       ids: ids,
-        //       id: notes[i].id
-        //     });
-        //   }
-        //   this.viewer.restoreAllMaterialColor(objects);
-        // }
 
 
         function create_group_Rapport(detail, alert, name) {
@@ -652,15 +425,10 @@ import * as jspdf from 'jspdf'
           var title = document.createElement("h4");
           title.className = "pdfTitle";
           title.innerText = "  " + name;
-          // title.style.display = "inline";
 
           var span = document.createElement('div');
           span.className = "color_span"
-          // span.style.width = "100px";
-          // span.style.height = "10px";
-          // span.style.border = "1px solid black";
           span.style.background = alert.color;
-          // span.style.display = "inline-block";
 
           var titleDiv = document.createElement('div');
           titleDiv.className = "titleDiv"
@@ -668,11 +436,6 @@ import * as jspdf from 'jspdf'
           titleDiv.appendChild(title);
           // titleDiv.appendChild(document.createElement("hr"));
           title.className = "__title"
-          // titleDiv.style.padding = "10px";
-          // title.style.color = "#ffffff";
-          // title.style.height = "30px";
-
-          // titleDiv.style.background = "#3A3A3A";
 
           div.appendChild(titleDiv);
           var ol = document.createElement("ul");

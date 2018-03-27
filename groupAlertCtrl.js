@@ -10,12 +10,9 @@
         };
         $scope.selectedObject = createPanelfactory.getSelected();
         createPanelfactory.getSelected().bind(callback);
-        // console.log("there is groupAlert controller");
-        // console.log($scope.selectedObject);
 
         $scope.group = $scope.selectedObject.group;
 
-        // $scope.group.bind($scope.onModelChange);
 
         $scope.colorClick = ($event) => {
           console.log("colorClick");
@@ -23,8 +20,7 @@
         }
 
         $scope.viewAllAlert = (groupAlert) => {
-          // console.log("ViewAllAlert");
-          // console.log(groupAlert);
+
           let tab = [];
           if (groupAlert.referencial.display.get()) {
             for (let i = 0; i < groupAlert.group.length; i++) {
@@ -41,37 +37,7 @@
           }
         };
 
-        // $scope.viewAllAlert = (groupAlert) => {
-        //   console.log("ViewAllAlert");
-        //   // let ref = [];
-        //   // let onDisplay = [];
-        //   // let offDisplay = [];
-        //   // let estdedans = false;
-        //   // for (let i = 0; i < groupAlert.referencial.allObject.length; i++) {
-        //   //   const refBimObject = groupAlert.referencial.allObject[i];
-        //   //   for (let j = 0; i < groupAlert.group.length; i++) {
-        //   //     const alert = groupAlert.group[i];
-        //   //     for (let k = 0; k < alert.allObject.length; k++) {
-        //   //       const alertBimObject = alert.allObject[k];
-        //   //       if (alertBimObject.name.get() == refBimObject.name.get())
-        //   //         estdedans = true;
-        //   //     }
-        //   //   }
-        //   // }
 
-        //   for (let i = 0; i < groupAlert.group.length; i++) {
-        //     const alert = groupAlert.group[i];
-
-        //     if (alert.display) {
-        //       alert.display.set(false);
-        //       $scope.restoreColor(alert);
-        //     } else {
-        //       $scope.changeItemColor(alert);
-        //       alert.display.set(true);
-        //     }
-        //   }
-
-        // };
         $scope.renameReferencial = (selectedGroup) => {
           $mdDialog.show($mdDialog.prompt()
               .title("Rename")
@@ -107,14 +73,11 @@
             )
             .then(function (result) {
               let mod = FileSystem._objects[selectedGroup._server_id];
-              // console.log("my endpoint");
-              // console.log(mod);
+
               var alert = new groupAlert();
               // console.log(alert);
               alert.name.set(result);
               alert.id.set(mod.group.length + 1);
-              // alert.owner.set($scope.user.id);
-              // alert.username.set($scope.user.username);
 
               if (mod) {
                 mod.group.push(alert);
@@ -131,7 +94,6 @@
         $scope.donut = (groupArrange) => {
 
           donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
-          // donutService.hideShowPanel("donutCtrl", "donutTemplate.html", groupArrange);
         };
 
         $scope.renameAlert = (alert) => {
@@ -161,8 +123,6 @@
 
 
         $scope.deleteAlert = (theme, note = null) => {
-          // console.log(note);
-          // console.log(theme);
           var dialog = $mdDialog.confirm()
             .ok("Delete !")
             .title('Do you want to remove it?')
@@ -198,9 +158,6 @@
 
         $scope.selectAlarm = (element) => {
           $scope.selectedAlarm = element;
-          // console.log("select alarm");
-          // console.log($scope.selectedAlarm);
-          // allObjectCtrl.selectAlarmFunc(element);
           allObjectService.hideShowPanel(element, $scope.selectedObject);
         };
 
@@ -234,21 +191,11 @@
 
 
         function restoreColor(item) {
-          // console.log("restore color");
-          // console.log(item);
           viewer.restoreColorMaterial([item.dbId.get()], item._server_id);
         }
 
 
-        $scope.selectColor = (alarm) => {
-          // console.log("selectedColor");
-          // console.log(alarm);
-        };
-
         $scope.$on('colorpicker-closed', function (data1, data2) {
-          // console.log(data1);
-          // console.log(data2);
-          // console.log(data1.targetScope.selectedAlarm);
           data1.stopPropagation();
           if (data2.name == "nimp.color")
             data1.targetScope.selectedObject.referencial.color.set(data2.value);
