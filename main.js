@@ -67,6 +67,7 @@
           button1.addClass('fa');
           button1.addClass('fa-list-alt');
           button1.addClass('fa-2x');
+          button1.addClass('spinalColorButton');
           button1.setToolTip(title);
 
           this.subToolbar = this.viewer.toolbar.getControl("spinalcom");
