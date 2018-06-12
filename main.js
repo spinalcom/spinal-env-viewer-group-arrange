@@ -54,7 +54,7 @@
         createUI() {
           var title = 'SpinalBIM Inspector';
           this.panel = new PanelClass(this.viewer, title);
-          var button1 = new Autodesk.Viewing.UI.Button('SpinalBIM Inspector');
+          var button1 = new Autodesk.Viewing.UI.Button(title);
 
           button1.onClick = (e) => {
             if (!this.panel.isVisible()) {
@@ -67,7 +67,7 @@
           button1.addClass('fa');
           button1.addClass('fa-list-alt');
           button1.addClass('fa-2x');
-          button1.setToolTip('Inspector');
+          button1.setToolTip(title);
 
           this.subToolbar = this.viewer.toolbar.getControl("spinalcom");
           if (!this.subToolbar) {
