@@ -54,7 +54,7 @@
         createUI() {
           var title = 'SpinalBIM Inspector';
           this.panel = new PanelClass(this.viewer, title);
-          var button1 = new Autodesk.Viewing.UI.Button('SpinalBIM Group Studio');
+          var button1 = new Autodesk.Viewing.UI.Button('SpinalBIM Inspector');
 
           button1.onClick = (e) => {
             if (!this.panel.isVisible()) {
