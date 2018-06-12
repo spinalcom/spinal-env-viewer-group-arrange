@@ -52,7 +52,7 @@
         }
 
         createUI() {
-          var title = 'SpinalBIM Group Studio';
+          var title = 'SpinalBIM Inspector';
           this.panel = new PanelClass(this.viewer, title);
           var button1 = new Autodesk.Viewing.UI.Button('SpinalBIM Group Studio');
 
@@ -67,7 +67,7 @@
           button1.addClass('fa');
           button1.addClass('fa-list-alt');
           button1.addClass('fa-2x');
-          button1.setToolTip('Group Studio');
+          button1.setToolTip('Inspector');
 
           this.subToolbar = this.viewer.toolbar.getControl("spinalcom");
           if (!this.subToolbar) {
